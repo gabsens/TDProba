@@ -1,0 +1,1235 @@
+\documentclass{report}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel}
+\usepackage{titlesec}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage{bbm}
+\usepackage{stmaryrd}
+\usepackage{mathrsfs}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{datetime}
+\geometry{total={210mm,297mm},
+left=25mm,right=25mm,%
+bindingoffset=0mm, top=20mm,bottom=20mm}
+
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\re}{Re}
+\DeclareMathOperator{\im}{Im}
+%\usepackage[document]{ragged2e}
+\begin{document}
+
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries\centering}
+  {\chaptertitlename\ \thechapter}{10pt}{\Huge}
+
+  \titleformat{\section}[block]
+  {\normalfont\large\bfseries\centering}
+  {\thesection}{3pt}{\large}
+
+%\titleformat{\subsection}[runin]{\normalfont\large\bfseries\raggedleft}{\thesubsection}{0pt}{}
+
+
+
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{Exercice \arabic{subsection}}
+
+\title{TD de probabilités\\ ENSAE\\ 1A}
+\author{Gabriel Romon}
+\date{Version du \today \!  à \currenttime}
+\maketitle
+
+\section{Loi de probabilité, Espérance et Fonction de répartition}
+
+\subsection{} \noindent\fbox{
+\parbox{\linewidth}{
+Soit $(X,Y)$ un couple aléatoire continu de densité donnée par $$f(x,y)=\frac 1x e^{-x}\mathbbm{1}_D(x,y) \quad \text{avec } D=\{(x,y)\in \mathbb R^2, 0<y<x\}$$
+On pose $U=X$ et $V=\frac{Y}{X}$.\newline
+\begin{enumerate}[leftmargin=*]
+\item Loi marginale de X.
+\item Avec la formule de changement de variables montrer que $(U,V)$ est un couple aléatoire continu et donner sa densité.
+\item Déterminer la loi de $U$ et celle de $V$. Ces variables aléatoires sont-elles indépendantes ?
+\end{enumerate}
+}}\\ 
+\\ 
+\\
+\noindent 1. Le couple $(X,Y)$ étant continu, $X$ et $Y$ sont également continues, et la densité de $X$ est donnée par 
+$$\begin{aligned}
+f_X(x)&=\int f(x,y)d\lambda(y)= \int \frac 1x e^{-x} \mathbbm{1}_{(0,\infty)}(x)\mathbbm{1}_{(0,x)}(y) d\lambda(y) = \frac 1x e^{-x} \mathbbm{1}_{(0,\infty)}(x) \int_0^x d\lambda(y)\\
+&=e^{-x} \mathbbm{1}_{(0,\infty)}(x)
+\end{aligned}$$
+Donc $X$ suit une loi exponentielle de paramètre $1$.\\ \\
+
+\noindent 2. On définit 
+ $\varphi=
+    \begin{cases}
+      \mathbb R\setminus \{0\} \times \mathbb R & \longrightarrow \; \mathbb R\setminus \{0\} \times \mathbb R \\
+      (x,y) & \longmapsto \; (x,\frac yx)
+    \end{cases}$ \newline
+$\bullet$ $\mathbb R\setminus \{0\} \times \mathbb R$ est un ouvert de $\mathbb R^2$, son complémentaire $\{0\} \times \mathbb R$ étant clairement fermé. \newline
+$\bullet$ $\varphi$ est bijective de réciproque $\varphi^{-1}=
+    \begin{cases}
+      \mathbb R\setminus \{0\} \times \mathbb R & \longrightarrow \; \mathbb R\setminus \{0\} \times \mathbb R \\
+      (x,y) & \longmapsto \; (x, xy)
+    \end{cases}$ \newline
+$\bullet$ $\varphi_1\colon (x,y) \mapsto x$ et $\varphi_2\colon (x,y) \mapsto \frac yx$. Les dérivées partielles de $\varphi_1$ et $\varphi_2$  existent et sont continues donc $\varphi$ est $C^1$ avec $$ \operatorname{Jac}(\varphi)(x,y)  =\begin{pmatrix} 
+\frac{\partial \varphi_1}{\partial x} & \frac{\partial \varphi_1}{\partial y} \\
+\frac{\partial \varphi_2}{\partial x} & \frac{\partial \varphi_2}{\partial y}
+\end{pmatrix} = \begin{pmatrix}
+1 & 0 \\
+-\frac{y}{x^2} & \frac{1}{x}
+\end{pmatrix}$$ \newline 
+$\bullet$ $\varphi^{-1}_1\colon (x,y) \mapsto x$ et $\varphi^{-1}_2\colon (x,y) \mapsto xy$. Les dérivées partielles de $\varphi^{-1}$ existent et sont continues donc $\varphi^{-1}$ est $C^1$ avec $$ \operatorname{Jac}(\varphi^{-1})(x,y)  =\begin{pmatrix} 
+\frac{\partial \varphi^{-1}_1}{\partial x} & \frac{\partial \varphi^{-1}_1}{\partial y} \\
+\frac{\partial \varphi^{-1}_2}{\partial x} & \frac{\partial \varphi^{-1}_2}{\partial y}
+\end{pmatrix} = \begin{pmatrix}
+1 & 0 \\
+y & x
+\end{pmatrix}$$\newline
+$\bullet$ $\displaystyle \begin{aligned}[t] P_{(X,Y)}(\mathbb R\setminus \{0\} \times \mathbb R) &= P_X(\mathbb R\setminus \{0\})=\int_{\mathbb R\setminus \{0\}} e^{-x}\mathbbm{1}_{(0,\infty)}(x) d\lambda(x)=\int_0^\infty e^{-x} d\lambda(x)\\ &=1 \end{aligned}$\newline
+Alors $(U,V)=\varphi(X,Y)$ est un vaR continu de densité donnée par 
+$$ \begin{aligned} g(u,v) &= f(\varphi^{-1}(u,v)) \cdot  |\det \operatorname{Jac}(\varphi^{-1})(u,v)| \cdot \mathbbm{1}_{\mathbb R\setminus \{0\} \times \mathbb R}(u,v)\\
+&= f(u,uv) \cdot |u| \cdot \mathbbm{1}_{\mathbb R\setminus \{0\}}(u)\\
+&=  e^{-u} \cdot \mathbbm{1}_{(0,\infty)}(u) \cdot \mathbbm{1}_{(0,u)}(uv) \cdot\mathbbm{1}_{\mathbb R\setminus \{0\}}(u) \\
+&= e^{-u} \cdot \mathbbm{1}_{(0,\infty)}(u) \cdot \mathbbm{1}_{(0,1)}(v)
+\end{aligned}$$
+3. En tant que marginales, $U$ et $V$ sont des var continus de densités 
+$$ \begin{aligned} g_U(u) &= \int e^{-u} \cdot \mathbbm{1}_{(0,\infty)}(u) \cdot \mathbbm{1}_{(0,1)}(v) d\lambda(v)\\
+&= e^{-u} \cdot \mathbbm{1}_{(0,\infty)}(u) \int \mathbbm{1}_{(0,1)}(v) d\lambda(v) \\
+&=e^{-u} \cdot \mathbbm{1}_{(0,\infty)}(u) 
+\end{aligned}$$
+et
+$$ \begin{aligned} g_V(v) &= \int e^{-u} \cdot \mathbbm{1}_{(0,\infty)}(u) \cdot \mathbbm{1}_{(0,1)}(v) d\lambda(u)\\
+&= \mathbbm{1}_{(0,1)}(v)  \int  e^{-u} \mathbbm{1}_{(0,\infty)}(u) d\lambda(u) \\
+&= \mathbbm{1}_{(0,1)}(v)
+\end{aligned}$$
+$U$ suit donc la loi exponentielle de paramètre $1$ et $V$ la loi uniforme sur $(0,1)$. On remarque que pour tout $(u,v)\in \mathbb R^2$, $g(u,v) = g_U(u) g_V(v)$ donc $U$ et $V$ sont $P$-indépendants.
+
+\subsection{} \noindent\fbox{
+\parbox{\linewidth}{
+Soient $X$ et $Y$ deux var continues indépendantes de loi respective $\Gamma(a,1)$ et $\Gamma(b,1)$.\newline
+Soient $S=X+Y$ et $Z=\frac{X}{X+Y}$
+\newline
+\begin{enumerate}[leftmargin=*]
+\item Avec la formule de changement de variables montrer que $(S,Z)$ est un couple aléatoire continu et donner sa densité.
+\item Déterminer la loi de $S$ et celle de $Z$. Ces variables aléatoires sont-elles indépendantes ?
+\end{enumerate}
+}}\\ 
+\\ 
+\\
+\noindent 1. $X$ et $Y$ étant des var continus indépendants, $(X,Y)$ est un vaR continu de densité donnée par $f_{(X,Y)}(x,y)=f_X(x)f_Y(y)$.\newline
+\newline
+On définit $B=\{(a,-a), \; a\in \mathbb R\}$, $U=\mathbb R^2\setminus B$, $V=\mathbb R\setminus \{0\} \times \mathbb R$
+et  $$\varphi=
+    \begin{cases}
+      U & \longrightarrow \; V \\
+      (x,y) & \longmapsto \; (x+y,\frac{x}{x+y})
+    \end{cases}$$ \newline
+$\bullet$ $B$ est fermé car il est l'image réciproque du fermé $\{0\}$ par l'application continue $(x,y)\mapsto x+y$. $U$ est un ouvert de $\mathbb R^2$ en tant que complémentaire de $B$.\newline
+$\bullet$ $V$ est ouvert (cf exo précédent).\newline
+$\bullet$ $\varphi$ est bijective de réciproque $\varphi^{-1}=\begin{cases}
+      V & \longrightarrow \; U \\
+      (x,y) & \longmapsto \; (xy,x-xy)
+    \end{cases}$ \newline
+$\bullet$ $\varphi_1\colon (x,y) \mapsto x+y$ et $\varphi_2\colon (x,y) \mapsto \frac{x}{x+y}$. Les dérivées partielles de $\varphi_1$ et $\varphi_2$  existent et sont continues donc $\varphi$ est $C^1$ avec $$ \operatorname{Jac}(\varphi)(x,y)  =\begin{pmatrix} 
+\frac{\partial \varphi_1}{\partial x} & \frac{\partial \varphi_1}{\partial y} \\
+\frac{\partial \varphi_2}{\partial x} & \frac{\partial \varphi_2}{\partial y}
+\end{pmatrix} = \begin{pmatrix}
+1 & 1 \\
+-\frac{y}{(x+y)^2} & -\frac{x}{(x+y)^2}
+\end{pmatrix}$$ \newline 
+$\bullet$ $\varphi^{-1}_1\colon (x,y) \mapsto xy$ et $\varphi^{-1}_2\colon (x,y) \mapsto x-xy$. Les dérivées partielles de $\varphi^{-1}$ existent et sont continues donc $\varphi^{-1}$ est $C^1$ avec $$ \operatorname{Jac}(\varphi^{-1})(x,y)  =\begin{pmatrix} 
+\frac{\partial \varphi^{-1}_1}{\partial x} & \frac{\partial \varphi^{-1}_1}{\partial y} \\
+\frac{\partial \varphi^{-1}_2}{\partial x} & \frac{\partial \varphi^{-1}_2}{\partial y}
+\end{pmatrix} = \begin{pmatrix}
+y & x \\
+1-y & -x
+\end{pmatrix}$$\newline
+$\bullet$ $P_{(X,Y)}(U) = 1-P_{(X,Y)}(B)$. Or $((X,Y)\in B) \subset (X\leq 0) \cup (Y\leq 0)$ donc \newline$P_{(X,Y)}(B) \leq P(X\leq 0) + P(Y\leq 0) = 0+0$. La dernière égalité vient du fait que $X$ et $Y$ suivent des lois hypergéométriques dont le support est $(0,\infty)$.\newline Donc $P_{(X,Y)}(U) = 1$.\newline
+Alors $(S,T)=\varphi(X,Y)$ est un vaR continu de densité donnée par $$\begin{aligned}
+g(s,t)&=f_{(X,Y)}(st,s-st)\cdot |s| \cdot \mathbbm{1}_V(st,s-st)\\
+&= \left(\frac{1}{\Gamma(a)}(st)^{a-1}e^{-st}\mathbbm{1}_{(0,\infty)}(st)\right) \left(\frac{1}{\Gamma(b)}(s-st)^{b-1}e^{-(s-st)}\mathbbm{1}_{(0,\infty)}(s-st)\right) |s| \mathbbm{1}_{R\setminus \{0\}}(st)
+\end{aligned}$$
+Or $\begin{cases}
+st>0 \\
+s-st>0
+\end{cases} \iff \begin{cases}
+s>0 \\
+1>t> 0
+\end{cases}$ d'où $$\begin{aligned}
+g(s,t)&= \frac{1}{\Gamma(a+b)}s^{a+b-1}e^{-s}\mathbbm{1}_{(0,\infty)}(s) \cdot \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)} t^{a-1} (1-t)^{b-1}\mathbbm{1}_{(0,1)}(t)
+\end{aligned}$$
+2. En tant que marginales, $S$ et $T$ sont des var continues de densités 
+$$\begin{aligned}
+g_S(s) &= \int g(s,t) d\lambda(t) \\
+&= \frac{1}{\Gamma(a+b)}s^{a+b-1}e^{-s}\mathbbm{1}_{(0,\infty)}(s) \underbrace{\int \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)} t^{a-1} (1-t)^{b-1}\mathbbm{1}_{(0,1)}(t) d\lambda(t)}_{\text{masse de la densité d'une loi } \beta(a,b)}\\
+&= \frac{1}{\Gamma(a+b)}s^{a+b-1}e^{-s}\mathbbm{1}_{(0,\infty)}(s)
+\end{aligned}
+$$  $$\begin{aligned}
+g_T(t) &= \int g(s,t) d\lambda(s) \\
+&=  \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)} t^{a-1} (1-t)^{b-1}\mathbbm{1}_{(0,1)}(t) \underbrace{\int \frac{1}{\Gamma(a+b)}s^{a+b-1}e^{-s}\mathbbm{1}_{(0,\infty)}(s) d\lambda(s)}_{\text{masse de la densité d'une loi } \Gamma(a+b,1)}\\
+&= \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)} t^{a-1} (1-t)^{b-1}\mathbbm{1}_{(0,1)}(t)
+\end{aligned}
+$$
+Donc $S$ suit une loi $\Gamma(a+b,1)$ et $T$ une loi $\beta(a,b)$. On remarque que pour tout $(s,t)\in \mathbb R^2$, $g(s,t) = g_S(s) g_T(t)$ donc $S$ et $T$ sont $P$-indépendants.
+
+\subsection{} \noindent\fbox{
+\parbox{\linewidth}{
+Soit $(X,Y)$ deux var continues, indépendantes, de loi respective $\mathcal N(0,\sigma^2)$ et $\mathcal N(0,\tau^2)$. \newline
+Déterminer la loi de $Z=\frac XY$.
+}}\\ 
+\\ 
+\\
+\noindent La démarche est similaire à celle de l'exercice 1. \newline
+On définit 
+ $\varphi=
+    \begin{cases}
+      \mathbb R \times \mathbb R\setminus \{0\} & \longrightarrow \; \mathbb R \times \mathbb R\setminus \{0\} \\
+      (x,y) & \longmapsto \; (\frac{x}{y},y)
+    \end{cases}$ \newline
+$\varphi(X,Y)$ admet pour densité 
+$$\begin{aligned}
+g(u,v)&=f(uv,v) \cdot |v| \cdot \mathbbm{1}_{\mathbb R\setminus \{0\}}(v) \\
+&= \frac{1}{\sqrt{2\pi \sigma^2}}\frac{1}{\sqrt{2\pi \tau^2}} e^{-\frac{v^2}{2}(\frac{1}{\tau^2} + \frac{u^2}{\sigma^2})} \cdot |v| \cdot \mathbbm{1}_{\mathbb R\setminus \{0\}}(v)
+\end{aligned}$$
+En tant que marginale, $Z$ est continue et de densité donnée par 
+$$\begin{aligned}
+g_Z(u) &= \frac{2}{\sqrt{2\pi \sigma^2}}\frac{1}{\sqrt{2\pi \tau^2}} \int_0^{\infty} v e^{-\frac{v^2}{2}(\frac{1}{\tau^2} + \frac{u^2}{\sigma^2})} d\lambda(v) \\
+&= \frac{2}{\sqrt{2\pi \sigma^2}}\frac{1}{\sqrt{2\pi \tau^2}} \left[-\frac{2}{2\left( \frac{u^2}{\sigma^2} + \frac{1}{\tau^2}\right)} e^{-\frac{v^2}{2}(\frac{1}{\tau^2} + \frac{u^2}{\sigma^2})} \right]_0^{\infty}\\
+&= \frac 1\pi \frac{\frac{\sigma}{\tau}}{u^2+\frac{\sigma^2}{\tau^2}}
+\end{aligned}$$
+$Z$ suit donc une loi de Cauchy de paramètre $\frac{\sigma}{\tau}$.
+
+\subsection{} \noindent\fbox{
+\parbox{\linewidth}{
+Soit $(X,Y)$ un couple de var de loi $P_{(X,Y)}$ admettant une densité par rapport à $N\otimes \lambda$, $N$ étant la mesure de comptage sur $\mathbb N^*$.
+Cette densité est donnée par $$ f(x,y) = (1-p)\frac{(py)^{x-1}}{(x-1)!} e^{-y} \mathbbm{1}_{(0,\infty)}(y)$$
+\newline
+\begin{enumerate}[leftmargin=*]
+\item Déterminer les lois marginales de $X$ et $Y$.
+\item $X$ et $Y$ sont-elles indépendantes ?
+\end{enumerate}
+}}\\ 
+\\ 
+\\
+\noindent 1. Soit $A\in \mathcal (\mathbb R)$. On a $$\begin{aligned}
+P_X(A) &= P_{(X,Y)}(A \times \mathbb R) = \int \mathbbm{1}_{A\times \mathbb R}(u) f(u) dN\otimes \lambda(u) \\
+&= \int \mathbbm{1}_{A} (x) f(x,y) d(N\otimes \lambda)(x,y) = \int \delta_{\{x\}}(A) \left(\int f(x,y) d\lambda(y) \right)dN(x)\\
+&= \int \delta_{\{x\}}(A) (1-p)\frac{p^{x-1}}{(x-1)!}\Gamma(x) dN(x)\\
+&= \sum_{x\in \mathbb N^*} (1-p) p^{x-1} \delta_{\{x\}}(A)
+\end{aligned}$$
+Donc $X$ suit une loi géométrique de paramètre $1-p$.\newline
+Soit $B\in \mathcal B(\mathbb R)$. On a 
+$$\begin{aligned}\int \mathbbm{1}_{B }(y) dP_Y(y) &= P_Y(B) = P_{(X,Y)}(\mathbb N^* \times B)\\
+&= \int \mathbbm{1}_{\mathbb N^* \times B}(x,y) f(x,y) d(N\otimes \lambda)(x,y) \\
+&= \int \mathbbm{1}_{ B}(y) \left(\int f(x,y) dN(x) \right)d\lambda(y) \quad \text{Fubini positif}\\
+&= \int \mathbbm{1}_{ B}(y) \mathbbm{1}_{(0,\infty)}(y) (1-p) e^{-y} e^{py}d\lambda(y) \\
+&= \int \mathbbm{1}_{ B}(y) \underbrace{\mathbbm{1}_{(0,\infty)}(y) (1-p) e^{-(1-p)y}}_{:=f_Y(y)}d\lambda(y)\end{aligned}$$
+$\bullet$ $f_Y$ est dans $\mathcal M^+(\mathcal B(\mathbb R),\mathcal B(\overline{\mathbb R}))$ \newline 
+$\bullet$ $\int f_Y(y) d\lambda(y)=1$\newline
+Donc $Y$ est continue et admet $f_Y$ pour densité de probabilité. On reconnait la densité d'une loi exponentielle de paramètre $1-p$.\\ \\
+\noindent 2. Supposons par l'absurde que $X$ et $Y$ sont indépendantes. On dispose alors de $M\in \mathcal B(\mathbb R)$ un négligeable tel que $\forall (x,y)\in M^c$, $f(x,y)=f_X(x)f_Y(y)$ ce qui équivaut à $$\frac{y^{x-1}}{(x-1)!}\mathbbm 1_{(0,\infty)}(y) = (1-p)e^{py}\mathbbm 1_{(0,\infty)}(y)$$
+Or, pour $x=1$, il existe un unique $y_1$ tel que $1=(1-p)e^{py_1}$. \newline
+Par conséquent, $(\{1\}\times \{y_1\}^c)\subset M$, or $\begin{aligned}[t] N\otimes \lambda(\{1\}\times \{y_1\}^c) &= N(\{1\})\lambda(\{y_1\}^c) \\
+&=1\cdot \infty\\
+&= \infty \end{aligned}$\newline
+Or $M$ est négligeable, ce qui est absurde.
+
+\subsection{} \noindent\fbox{
+\parbox{\linewidth}{
+Soit $(X_n)_{n\geq 1}$ une suite de var indépendantes et de même loi uniforme sur $\{-1,1\}$ ie 
+$$ \forall n \geq 1, P_{X_n} = \frac 12 \delta_{\{-1\}} + \frac 12 \delta_{\{1\}}$$
+On note $\tau$ la var définie par $\tau = \inf \{n\geq 1, X_n=1\}$
+\begin{enumerate}[leftmargin=*]
+\item Calculer $\tau(\Omega)$. Que pouvez-vous en déduire ?
+\item Montrer que $P(\tau <\infty)=1$.
+\item Déterminer la loi de $\tau$.
+\end{enumerate}
+}}\\ 
+\\ 
+\\
+\noindent 1. $\tau(\Omega)\subset \mathbb N^*$ donc $\tau$ est une var discrète. \\ \\
+\noindent 2. $\begin{aligned}[t]
+P(\tau <\infty) &= P(\bigsqcup_{n=1}^\infty (\tau = n)) = \sum_{n=1}^\infty (\tau = n) \\
+&= \sum_{n=1}^\infty (X_1=-1\cap \ldots \cap X_{n-1}=-1 \cap X_n=1 ) = \sum_{n=1}^\infty \frac 1{2^n}=1 
+\end{aligned}$\\ \\
+\noindent 3. $P(\tau = n) = P(X_1=-1\cap \ldots \cap X_{n-1}=-1 \cap X_n=1 ) = \frac 1{2^n}$\newline
+donc $$P_{\tau}= \sum_{n=1}^\infty \frac 1{2^n}\delta_{\{n\}}$$
+
+
+
+\subsection{} \noindent\fbox{
+\parbox{\linewidth}{
+Soit $X$ une variable aléatoire de loi $\mathcal N (0,1)$.
+\begin{enumerate}[leftmargin=*]
+\item Déterminer la loi de $Z=\frac{X+|X|}{2}$.
+\item Montrer que $P_Z$ n'est ni discrète ni continue.
+\end{enumerate}
+}}\\ 
+\\ 
+\\
+\noindent 1. On note que $Z$ prend des valeurs $\geq 0$. Pour $w\in \Omega$, si $X(w)\geq 0$ alors $Z(w)=X(w)$ et si $X(w)< 0$, alors $Z(w)=0$. Pour $A\in \mathcal B(\mathbb R)$, $$ \begin{aligned}P_Z(A)&=P((Z\in A) \cap (X<0)) + P((Z\in A) \cap (X\geq 0)) \\
+&=P((0\in A) \cap (X<0)) + P((X\in A) \cap (X\geq 0)) \\
+&= \mathbbm{1}_{A}(0) P(X<0) + \mathbbm{1}_{A^c}(0) P(\emptyset) +  P( (X\in A) \cap (X\geq 0))\\
+&=  \frac 12 \delta_{\{0\}}(A) + P_X(A\cap [0,\infty)) \end{aligned}$$ \\ \\
+\noindent 2. D'après 1., pour $a\in \mathbb R$, \newline
+si $a<0$, $P_Z(\{a\})=0$ \newline
+si $a=0$, $P_Z(\{a\})=\frac 12$ \newline
+si $a>0$, $P_Z(\{a\})=0$ \newline 
+L'ensemble des atomes de $P_Z$ est donc réduit à $\{0\}$, avec $P_Z(\{0\})=\frac 12\neq 1$, donc $P_Z$ n'est pas discrète. De plus, $P_Z$ charge ce singleton, donc elle n'est pas continue.
+
+\newpage
+\subsection{} \noindent\fbox{
+\parbox{\linewidth}{
+Soit $X$ une var continue de loi exponentielle de paramètre $\theta>0$.\newline
+Soit $S$ une var discrète de loi uniforme sur $\{-1,1\}$ indépendante de $X$ et $Y=XS$.
+\begin{enumerate}[leftmargin=*]
+\item Exprimer la fonction de répartition de $Y$ en fonction de $X$.
+\item En déduire la loi de $Y$.
+\end{enumerate}
+}}\\ 
+\\ 
+\\
+\noindent 1. Soit $a\in \mathbb R$. On note $D_S=\{-1,1\}$ le support de $S$. $$\begin{aligned}[t]
+P(Y\leq a) &= P(XS \leq a)\\
+&= P((XS \leq a) \cap (S\in D_S)) + \underbrace{P((XS \leq a) \cap S\in D_S^c)}_{\leq P(S\in D_S^c)=0 }\\
+&= P((X \leq a) \cap (S=1)) + P((-X \leq a) \cap (S=-1)) \\
+&= P(X \leq a) P(S=1) + P(-X \leq a) P (S=-1) \quad \text{par indépendance}\\
+&= \frac 12 F_X(a) + \frac 12 (1-P(X<-a))\\
+&= \frac 12 F_X(a) + \frac 12 (1-P(X\leq -a)) \quad \text{car X continue} \\
+&= \frac 12 F_X(a) + \frac 12 (1-F_X(-a))
+\end{aligned}$$\\
+\noindent 2. En développant l'expression précédent on fait apparaitre la fonction de répartition d'une loi de Laplace de paramètre $\theta$.\newline
+Donc $Y$ suit une loi de Laplace de paramètre $\theta$.
+
+\newpage
+\subsection{} \noindent\fbox{
+\parbox{\linewidth}{
+Soit $U$ une variable aléatoire de loi uniforme sur $(0,1)$.\newline
+Soit $F$ la fonction de répartition associée à une mesure de probabilité $\mu$.
+On pose $$ \forall u \in (0,1), F^{-1}(u) = \inf \{ t\in \mathbb R, \; F(t)\geq u\}$$
+\begin{enumerate}[leftmargin=*]
+\item Montrer que $\{u\in (0,1), \; F^{-1}(u)\leq t\}=\{u\in (0,1), \; u\leq F(t)\}$
+\item Justifier que $F^{-1}(U)$ est une var.
+\item Déterminer la fonction de répartition de $F^{-1}(U)$ puis sa loi.
+\item Construire une var de loi exponentielle de paramètre $\theta$.
+\item Construire une var de loi de Bernoulli de paramètre $p$.
+\item Construire une var de loi géométrique de paramètre $p$.
+\end{enumerate}
+}}\\ 
+\\ 
+\\
+\noindent 1. $\bullet$ $F^{-1}$ est bien définie: soit $u\in (0,1)$. Comme $F\xrightarrow[+ \infty]{} 1$, il existe $t\in \mathbb R$ tel que $F(t)\geq u$. D'autre part, $\{ t\in \mathbb R, \; F(t)\geq u\}$ est minoré car $F$ tend vers $0$ en $-\infty$\newline
+$\bullet$ Lemme: $F(F^{-1}(u))\geq u$: en considérant $t_n$ une suite de $\{ t\in \mathbb R, \; F(t)\geq u\}$ qui tend en décroissant vers $F^{-1}(u)$, on a $F(t_n)\geq u$ pour tout $n$, et la continuité à droite de $F$ donne  $F(F^{-1}(u))\geq u$.  \newline
+$\bullet$ On fixe $t\in \mathbb R$.\newline
+$\subset$: soit $u\in (0,1)$ tel que $F^{-1}(u)\leq t$.
+Par croissance de $F$ et le lemme, $u\leq F(F^{-1}(u))\leq F(t)$.\newline
+$\supset$: soit $u\in (0,1)$ tel que $u\leq F(t)$. Par définition de $F^{-1}(u)$, on a $F^{-1}(u)\leq t$.
+ \\ \\
+\noindent 2. Il suffit de montrer que $F^{-1} \in \mathcal M(\mathcal B(\mathbb R),\mathcal B(\mathbb R))$. Il suffit encore de montrer que pour tout $a\in \mathbb R$, $\left( F^{-1}\right)^{-1} \left((-\infty, a]\right) \in \mathcal B(\mathbb R)$.\newline
+On a $\begin{aligned}[t] \left( F^{-1}\right)^{-1} \left((-\infty, a]\right)
+&= \{u\in (0,1), \; F^{-1}(u)\in  (-\infty, a] \} \\
+&= \{u\in (0,1), \; F^{-1}(u) \leq a \}\\
+&= \{u\in (0,1), \; u \leq F(a) \}\\
+&= (-\infty, F(a)] \cap (0,1) \\
+&\in \mathcal B(\mathbb R)
+\end{aligned}$ \\ \\
+\noindent 3. Pour $a\in \mathbb R$, $$\begin{aligned}
+P(F^{-1}(U)\leq a) &= P\left(U^{-1}\left[\left( F^{-1}\right)^{-1} \left((-\infty, a]\right)\right]\right) \\
+&= P\left(U^{-1}\left[ (-\infty, F(a)] \cap (0,1) \right] \right) \\
+&=\begin{cases}
+      P\left(U^{-1}(\emptyset) \right) & \text{si}\ F(a)=0 \\
+      P\left(U^{-1}((0,F(a)])) \right) & \text{si}\ 0<F(a)<1\\
+      P\left(U^{-1}((0,1)) \right)& \text{si}\ F(a)=1
+    \end{cases}\\
+&= \begin{cases}
+      0 & \text{si}\ F(a)=0 \\
+      F(a)  & \text{si}\ 0<F(a)<1\\
+      1 & \text{si}\ F(a)=1
+    \end{cases}\\
+&= F(a)
+\end{aligned}$$
+La fonction de répartition de $F^{-1}(U)$ est donc $F$ et $F^{-1}(U)$ est en égal en loi à $\mu$.\\ \\
+\noindent 4. Dans ce cas, $F^{-1}:u\mapsto -\frac{\ln(1-u)}{\theta} $ \\ \\
+\noindent 5. Dans ce cas, $F^{-1}:u\mapsto \mathbbm{1}_{(1-p,1]}(u) $ \\ \\
+\noindent 6. Dans ce cas, $F^{-1}:u\mapsto \sum_{n=1}^\infty (n+1)\mathbbm{1}_{((1-p)^np,(1-p)^{n+1}p]}(u)$
+
+\subsection{} \noindent\fbox{
+\parbox{\linewidth}{
+Soit $(\Omega, \mathcal A, P)$ un espace probabilisé et $X$ une var sur $\Omega$.\newline
+Pour tout $t>0$, on note $B_t=\{ w\in \Omega, \; X(w)>t\}$.\newline
+On suppose que $P(X>0)>0$ et pour tout $t,s>0$, $P(B_{t+s})=P(B_t)P(B_s)$.
+\begin{enumerate}[leftmargin=*]
+\item Montrer que $\forall t>0, P(B_t)>0$.
+\item Montrer que $P(B_1)<1$.
+\item Soit $m:\mathbb R_+^*\to \mathbb R, t\mapsto \ln(P(B_t))$. Montrer que $\forall t>0, m(t)=m(1)t$.
+\item En déduire la fonction de répartition de $X$ sur $\mathbb R_+^*$ puis sur $\mathbb R_-$. Quelle est la loi de $X$? 
+\end{enumerate}
+}}\\ 
+\\ 
+\\
+\noindent 1. Supposons par l'absurde qu'il existe $t>0$ tel que $P(B_t)=0$. Considérons alors $A=\{t>0/\; P(B_t)=0\}$ et $t_0=\inf A$. Comme $P(B_t)=1-F_X(t)$, $t\mapsto P(B_t)$ est continue à droite et en considérant $(t_n)\in A^{\mathbb N}$ qui décroit vers $t_0$, on a $t_0\in A$. Comme $0<P(X>0)=P(\cup (X>\frac 1n))=\lim_n P(X>\frac 1n)$ on dispose de $\varepsilon_0:=\frac{1}{n_0}$ tel que $P(B_{\varepsilon_0})>0$. Or $\varepsilon\leq \varepsilon_0 \implies B_{\varepsilon_0}\subset B_{\varepsilon}$, donc pour tout $\varepsilon\leq \varepsilon_0$, $P(B_{\varepsilon})>0$. Soit $\delta = \frac{\min(t_0,\varepsilon_0)}{2}$ alors $0=P(B_{t_0})=P(B_{t_0-\delta})\underbrace{P(B_{\delta})}_{>0}$ donc $P(B_{t_0-\delta})=0$ avec $0<t_0-\delta<t_0$. Absurde.
+\\ \\
+\noindent 2. Supposons $P(B_1)=1$. Alors pour tout $t>0$, $P(B_{t+1}|B_1)=P(B_{t+1})$, donc $P(B_{t+1})=P(B_{t})$ pour tout $t>0$. On démontre alors par récurrence que pour tout $n\geq 1$, $P(B_n)=P(B_1)$, donc $P(B_n)=1$. Or $B_n$ est une suite décroissante d'événements avec $\cap_n B_n =\emptyset$ (car $X$ ne prend que des valeurs finies). Par conséquent, $0=P(\emptyset)=P(\cap_n B_n)=\lim_n P(B_n)= 1$ ce qui est absurde. \\ \\
+\noindent 3. L'hypothèse de départ se réécrit $$\forall t,s>0,\; m(t+s)= m(t)+m(s)$$
+En fixant $s=1$, on a pour tout $t>0$, $m(t+1)=m(t)+m(1)$ et une récurrence montre que pour tout $n\in \mathbb N^*$, $m(n)=m(1)n$.\newline
+Soit $p,q\in \mathbb N^*$. On note que $m(1)=m(q\frac 1q)$. On montre par ailleurs par récurrence que $$\forall n\in \mathbb N^*, \; m(n\frac 1q)=nm(\frac 1q)  \quad (*)$$ Donc $m(1)=m(q\frac 1q)= q m(\frac 1q)$, et  $m(\frac 1q)=\frac{m(1)}{q}$. \newline
+De même $(*)$ donne $$m(\frac pq)= m(p\frac 1q)=pm(\frac 1q)=m(1)\frac pq$$
+Donc pour tout $r\in \mathbb Q_+^*$, $m(r)=m(1)r$.\newline
+Comme $\forall t>0, P(B_t)=1-F_X(t)$, $m$ est continue à droite en tout point.\newline
+Soit $t>0$. Soit $t_n$ une suite de rationnels qui tend en décroissant vers $t$. On a $$ m(t) = \lim_n m(t_n)= \lim_n (m(1)t_n) = m(1) \lim t_n = m(1)t$$
+Le résultat est donc prouvé. \\ \\
+\noindent 4. Pour $t>0$ on a donc $F_X(t)=1-e^{m(1)t}$. Rappelons que $m(1)=\ln (P(B_1))<0$. $F_X$ est continue à droite en $0$, donc $$P(X\leq 0) = F_X(0) = \lim_n F_X(\frac 1n) = 1- \lim_n e^{\frac{m(1)}{n}} =0 $$
+En particulier, si $a\leq 0$, $(X\leq a)\subset (X\leq 0)$, donc $P(X\leq a))\leq P((X\leq 0))=0$ et $F_X(a)=0$.\newline
+La fdr de $X$ est donnée par $$ F_X(t) = \begin{cases}
+1-e^{m(1)t} & \text{si } t>0 \\
+0 & \text{si } t\leq 0
+\end{cases}$$ qui est la fdr d'une loi exponentielle de paramètre $-m(1)$. $X$ suit donc une loi exponentielle de paramètre $-m(1)$.
+
+\subsection{} \noindent\fbox{
+\parbox{\linewidth}{
+Soit $T=(U_1,\ldots,U_n)$ un vaR constitué de var indépendantes et iid. On note $F$ la fonction de répartition de $U_1$. Soit $h$ et $p_k$ les applications telles que $$\forall t=(t_1,\ldots,t_n)\in \mathbb{R}^n,\; h(t)=(t_{(1)},\ldots, t_{(n)}) \quad \text{avec } t_{(1)}\leq\ldots \leq t_{(n)}$$$$ \forall t=(t_1,\ldots,t_n)\in \mathbb{R}^n,\; p_k(t)=t_k$$ 
+\begin{enumerate}[leftmargin=*]
+\item Déterminer la fonction de répartition de la var $Y=(p_k\circ h)(T)$.
+\item On suppose que $S=\sum_{i=1}^n \mathbbm{1}_{(-\infty,c]}(U_i)$ pour $c$ fixé.
+\begin{enumerate}
+\item Etablir un lien entre $S^{-1}(\{k\})$ et $Y^{-1}((-\infty, c])$.
+\item En déduire la loi de $S$.
+\end{enumerate}
+\end{enumerate}
+}}\\ 
+\\ 
+\\
+\noindent 1. Soit $y\in \mathbb R$. $\begin{aligned}[t] P(Y\leq y)&=P(\bigcup_{\substack{I\subset \llbracket 1,n \rrbracket\\ |I|\geq k}} \bigcap_{i\in I} (U_i \leq y)) \\
+&= P(\bigsqcup_{j=k}^n \bigsqcup_{\substack{I\subset \llbracket 1,n \rrbracket\\ |I|= j}} \bigcap_{i\in I} (U_i \leq y) \cap \bigcap_{i\in I^c} (U_i > y))\\
+&= \sum_{j=k}^n  \sum_{\substack{I\subset \llbracket 1,n \rrbracket\\ |I|= j}} P(\bigcap_{i\in I} (U_i \leq y) \cap \bigcap_{i\in I^c} (U_i > y))\\
+&= \sum_{j=k}^n  \sum_{\substack{I\subset \llbracket 1,n \rrbracket\\ |I|= j}} (F(y))^j (1-F(y))^{n-j} \quad \text{indépendance} \\
+&= \sum_{j=k}^n \binom{n}{j} (F(y))^j (1-F(y))^{n-j}
+\end{aligned}$\newline \newline
+2. a) On a $\begin{aligned}[t]S^{-1}(\{k\})&=((p_k\circ h)(T)\leq c) \cap ((p_{k+1}\circ h)(T)> c)\\
+&\subset ((p_k\circ h)(T)\leq c) \\
+&= Y^{-1}((-\infty, c]) \end{aligned} $ \newline \newline
+b) Chaque indicatrice $\mathbbm{1}_{(-\infty,c]}(U_i)$ suit une loi de Bernoulli de paramètre $F(c)$, les indicatrices sont indépendantes par composition, donc $S$ suit une loi binomiale de paramètre $(n,F(c))$.
+
+\subsection{} \noindent\fbox{
+\parbox{\linewidth}{
+Soit $X$ une var de loi $P_X$ et de fonction de répartition $F_X$ telle que $P(X\geq 0)=1$. 
+\begin{enumerate}
+\item Avec Fubini, établir que $$ E(X) = \int_{\mathbb R^+} (1-F_X(t))d\lambda(t)$$
+\item On suppose que $P_X$ est une loi discrète de support $\mathbb N$. Exprimer $E(X)$ en fonction de $F_X$ dans ce cas.
+\end{enumerate}
+}}\\ 
+\\ 
+\\
+\noindent 1. $X$ étant $\geq 0$ Pps, $E(X)$ existe dans $\overline{\mathbb R}$.\newline  $\begin{aligned}[t]
+\int_{\mathbb R^+} (1-F_X(t))d\lambda(t) &= \int_{\mathbb R^+}  P(X>t) d\lambda(t) = \int_{\mathbb R_+^*}  P(X>t) d\lambda(t) \\
+&= \int \mathbbm 1_{(0,\infty)}(t) \int \mathbbm 1_{(t,\infty)}(u) dP_X(u) d\lambda(t) \\
+&= \int \int \mathbbm 1_{(0,\infty)}(t)\mathbbm 1_{(t,\infty)}(u) dP_X(u) d\lambda(t) \\
+&= \int \int \mathbbm 1_{D}((t,u))dP_X(u) d\lambda(t) \quad \text{où } D=\{(t,u)\in \mathbb R^2, 0<t<u\;\}
+\end{aligned}$\newline
+or $D$ est l'intersection de deux ouverts de $\mathbb R^2$, donc ouvert, donc $D \in \mathcal B(\mathbb R^2)$ et $\mathbbm 1_D \in \mathcal M^+(\mathcal B(\mathbb R^2),\mathcal B(\mathbb R))$. D'après Fubini positif, $$ \begin{aligned} \int \int \mathbbm 1_{(0,\infty)}(t)\mathbbm 1_{(t,\infty)}(u) dP_X(u) d\lambda(t) 
+&= \int \int \mathbbm 1_{(0,\infty)}(t)\mathbbm 1_{(t,\infty)}(u) d\lambda(t) dP_X(u) \\
+&= \int \int \mathbbm 1_{(0,\infty)}(u)\mathbbm 1_{(0,u)}(t)d\lambda(t) dP_X(u) \\
+&= \int \mathbbm 1_{(0,\infty)}(u) u  \;dP_X(u) \\
+&= \int \mathbbm 1_{[0,\infty)}(u) u \;dP_X(u)  \quad \text{car } 1_{(0,\infty)}(u) u = 1_{[0,\infty)}(u) u \\
+&= \int \mathbbm 1_{[0,\infty)}(X(w)) X(w) \;dP(w) \quad \text{transfert pour fonction positive} \\
+&= \int X(w) \;dP(w) \quad \text{car } \mathbbm 1_{[0,\infty)}(X) = 1 \; P\text{-p.s}\\
+&= E(X)
+ \end{aligned}$$
+2. Dans ce cas, en notant $N$ la mesure de comptage sur $\mathbb N$,
+$$ \begin{aligned}[alignment]
+\sum_{n\in \mathbb N} (1-F_X(n)) &= \int (1-F_X(n))dN(n) \\
+&= \int P_X((n,\infty)) dN(n) \\
+&= \int \int \mathbbm 1_{(n,\infty)}(t) dP_X(t) dN(n) \\
+&= \int \int \mathbbm 1_{(n,\infty)}(t)  dN(n) dP_X(t)  \\
+&= \int \left(\int \mathbbm 1_{(-\infty,t)}(n)  dN(n) \right)dP_X(t) \\
+&= \sum_{t\in \mathbb N} P_X(\{t\})\sum_{n< t, n\in \mathbb N} 1 \\
+&= \sum_{t\in \mathbb N} P_X(\{t\}) t \\
+&= E(X)
+\end{aligned}$$
+
+\subsection{} \noindent\fbox{
+\parbox{\linewidth}{
+Soit $X$ une var de loi $\mathcal N(0,1)$.
+\begin{enumerate}
+\item Pour tout $t\in \mathbb R$, calculer l'espérance et la variance de $U=e^{tX}$.
+\item Pour quelles valeurs de $a>0$, la variable $V=e^{aX^2}$ est-elle de carré intégrable ? Dans ce cas, calculer sa variance.
+\end{enumerate}
+}}\\ 
+\\ 
+\\
+\noindent 1. $x\mapsto e^{tx}$ est $(\mathcal B(\mathbb R),\mathcal B(\mathbb R))$ mesurable (car continue), positive et $P_X$ est continue, donc:
+$$ \begin{aligned} \int e^{tx} dP_X(x) &= \int e^{tx} f_X(x) d\lambda(x) = \frac{1}{\sqrt{2\pi }}\int e^{tx} e^{-x^2/2} d\lambda(x)\\
+&=\frac{1}{\sqrt{2\pi }} \int e^{t^2/2} e^{-(x-t)^2/2} d\lambda(x) \\
+&=e^{t^2/2} \frac{1}{\sqrt{2\pi }}\int e^{-x^2/2} d\lambda(x)\\
+&= e^{t^2/2}
+ \end{aligned}$$
+Donc $U$ admet une espérance finie donnée par $E(U)=e^{t^2/2}$. \newline \newline 
+Comme $U^2=e^{2tX}$, un calcul similaire en remplaçant $t$ par $2t$ montre que $U$ admet un moment d'ordre $2$ avec $E(U^2)=e^{(2t)^2/2}=e^{2t^2}$.\newline
+Donc $V(U)=e^{2t^2}-(e^{t^2/2})^2=e^{2t^2}-e^{t^2}$. \newline \newline
+2. Soit $a>0$. $x\mapsto e^{ax^2}$ est $(\mathcal B(\mathbb R),\mathcal B(\mathbb R))$ mesurable (car continue), positive et $P_X$ est continue, donc:
+$$ \begin{aligned} \int e^{ax^2} dP_X(x) &= \int e^{ax^2} f_X(x) d\lambda(x) = \frac{1}{\sqrt{2\pi }}\int e^{ax^2} e^{-x^2/2} d\lambda(x)\\ 
+&=\frac{1}{\sqrt{2\pi }} \int e^{-x^2(\frac{1}{2}-a)} d\lambda(x) \end{aligned}$$
+$V$ admet une espérance si et seulement si l'intégrale précédente est finie, ie $a<\frac{1}{2}$.\newline
+Dans ce cas, $E(V)=\frac{1}{\sqrt{2\pi }} \int e^{-x^2(\frac{1}{2}-a)} d\lambda(x) =\frac{1}{\sqrt{1-2a}}$.\newline \newline
+Comme $V^2=e^{2aX^2}$, en reprenant le calcul précédent avec $2a$ au lieu de $a$, $V$ admet un moment d'ordre $2$ si et seulement si $2a<\frac{1}{2}$ ie $a<\frac 14$ et dans ce cas $E(V^2)=\frac{1}{\sqrt{1-4a}}$.\newline
+La variance de $V$ est donnée par $\dfrac{1}{\sqrt{1-4a}} - \dfrac{1}{1-2a}$
+
+\subsection{} \noindent\fbox{
+\parbox{\linewidth}{
+Soit $Z$ une var continue de loi de Laplace de paramètre $\theta$.\newline
+Soient $U=\mathbbm 1_{[0,\infty)}(Z) - \mathbbm 1_{(-\infty,0)}(Z)$ et $T=|Z|$.
+\begin{enumerate}
+\item Montrer que $U$ est une var discrète de loi uniforme sur $\{-1,1\}$.
+\item Montrer que $T$ est une var continue de loi exponentielle $\mathcal E(\theta)$
+\item Montrer que $U$ et $T$ sont indépendantes (critère utilisant les espérances).
+\end{enumerate}
+}}\\ 
+\\ 
+\\
+\noindent 1. $U(w)=1$ ssi $Z(w)\geq 0$ et $U(w)=-1$ ssi $Z(w)<0$. $U$ est à valeurs dans $\{-1,1\}$ donc discrète. $P(U=1)=P(Z\geq 0)=\int_0^\infty \frac{\theta}{2}e^{-\theta |x|} d\lambda(x)=\frac 12$. De même $P(U=-1)=\frac 12$, donc $P_U = \frac{1}{2} \delta_{\{-1\}}+\frac{1}{2} \delta_{\{1\}}$. \newline \newline
+2. Soit $a\in \mathbb R$. Si $a<0$, $P(T\leq a)=0 $. \newline 
+Si $a\geq 0$, $\begin{aligned}[t] P(T\leq a)=P(Z\in [-a,a])&=\int_{-a}^a \frac{\theta}{2}e^{-\theta |x|} d\lambda(x)\\
+&= 1-e^{-\theta a}  \end{aligned}$ \newline
+On peut aussi écrire $P(Z\in [-a,a]) = F_Z(a)-F_Z(-a)=(1-e^{-\theta a})\mathbbm 1_{a\in (0,\infty)}$. \newline
+La fdr de $T$ est donc celle d'une loi exponentielle de paramètre $\theta$, donc $T$ suit la loi exponentielle de paramètre $\theta$. \newline 
+\newline 
+Autre méthode: pour $h$ mesurable positive, $$\begin{aligned} E(h(T))&=\int h(|z|) f_Z(z) dz \\ &= \int_{\mathbb R^-} h(-z) f_Z(z) dz + \int_{\mathbb R^+} h(z) f_Z(z) dz\\ & = \int h(z) \underbrace{(f_Z(z) + f_Z(-z)) \mathbbm 1_{(0,\infty)}(z)}_{\text{densité de } T} dz \end{aligned}$$
+\newline \newline
+3. Montrons que pour tout $h,g\in \mathcal M^+(\mathcal B(\mathbb R),\mathcal B(\mathbb R))$,  $E(h(U)g(T))=E(h(U))E(g(T))$.\newline
+On a $\begin{aligned}[t]
+E(h(U))E(g(T)) &= \left(\frac{h(1)}{2} + \frac{h(-1)}{2} \right) \int_{\mathbb R^+} g(t) \theta e^{-\theta t} dt
+\end{aligned}$ \newline \newline
+et $\begin{aligned}[t]
+E(h(U)g(T)) &= E(h(\sign(Z))g(|Z|)) \\ 
+&= \int h(\sign(z))g(|z|) \frac{\theta}{2}e^{-\theta |z|} dz \\
+&= \int_{\mathbb R^-}h(-1)g(-z)\frac{\theta}{2}e^{\theta z} dz + \int_{\mathbb R^+}h(1)g(z)\frac{\theta}{2}e^{-\theta z} dz \\
+&= \int_{\mathbb R^+}h(-1)g(t)\frac{\theta}{2}e^{-\theta t} dt + \int_{\mathbb R^+}h(1)g(z)\frac{\theta}{2}e^{-\theta z} dz \\
+&= \left(\frac{h(1)}{2} + \frac{h(-1)}{2} \right) \int_{\mathbb R^+} g(t) \theta e^{-\theta t} dt
+\end{aligned}$ 
+
+\subsection{} \noindent\fbox{
+\parbox{\linewidth}{
+Soit $X$ une var de loi uniforme sur $(0,1)$ et $Y$ définie par $Y=\mathbbm 1_{(0,p)}(X)$ avec $p\in (0,1)$.
+\begin{enumerate}
+\item Loi de $Y$.
+\item Soit $Z=X+Y$. Loi de $Z$.
+\item Montrer de deux manières que $X$ et $Y$ ne sont pas indépendantes.
+\end{enumerate}
+}}\\ 
+\\ 
+\\
+\noindent 1. $Y$ est à valeurs dans $\{0,1\}$ donc discrète, avec $P(Y=1)=P(X\in (0,p))=p$.\newline Donc $X$ suit la loi de Bernoulli de paramètre $p$.\newline \newline
+2. Soit $a\in \mathbb R$. Si $a\leq 0$, $P(X+Y\leq a)=0$. Si $a\geq 0$, $$\begin{aligned}[t]
+P(X+Y\leq a) &= P((X+1\leq a) \cap X\in (0,p)) + P((X\leq a)\cap X\in (p,1))\\
+&= P(X\in (0,a-1)\cap (0,p)) + P(X\in (0,a) \cap (p,1))\\
+&= \begin{cases}
+0 & \text{ si } a\in (0,p)\\
+a-p & \text{ si } a\in (p,1)\\
+a-p & \text{ si } a\in (1,1+p)\\
+1 & \text{ si } a>1+p
+\end{cases}
+\end{aligned}$$
+La fdr de $X+Y$ est donc celle de la loi uniforme sur $(p,1+p)$, donc $Z$ suit la loi uniforme sur $(p,1+p)$.\newline \newline
+3. On a $V(X+Y)=V(Z)=\frac{1}{12}$ et $V(X)+V(Y)=\frac{1}{12} + p(1-p)$, donc $X$ et $Y$ ne sont pas indépendantes. \newline \newline
+Autrement, $\begin{aligned}[t] E(XY)&=E(X \mathbbm 1_{(0,p)}(X)) \\
+&= \int x\mathbbm 1_{(0,p)}(x) f_X(x) d\lambda(x) \\
+&= \int_0^p x d\lambda(x) \\
+&= \frac{p^2}{2}
+\end{aligned}$ \newline
+et $E(X)E(Y) = \frac{1}{2} p$ donc $X$ et $Y$ ne sont pas indépendantes.
+
+\newpage 
+\section{Espérance conditionnelle}
+
+\subsection{} \noindent\fbox{
+\parbox{\linewidth}{
+Soient $X_1$ et $X_2$ deux var indépendantes de loi binomiale de paramètre respectif $(n_1,p)$ et $(n_2,p)$. \newline Déterminer la loi conditionnelle de $X_1$ sachant $X_1+X_2$. \newline En déduire $E(X_1|X_1+X_2)$.
+}}\\ 
+\\ 
+\\
+\noindent 
+$\bullet$ $X_1$ et $X_2$ étant des var indépendants et discrets, $(X_1,X_2)$ est un var discret de loi $$P_{(X_1,X_2)}=\sum_{(x,y)\in \llbracket 0,n_1\rrbracket\times \llbracket 0,n_2\rrbracket} \binom{n_1}{x} \binom{x_2}{y}p^{x+y} (1-p)^{n_1+n_2-(x+y)}$$
+$\bullet$ Déterminons $P_{(X_1+X_2,X_1)}$.\newline
+$\star$ Soit $\varphi:(x,y)\mapsto (x+y,x)$. $\varphi$ est continue donc $(\mathcal B(\mathbb R^2), \mathcal B(\mathbb R))$ mesurable. Donc $\varphi(X_1,X_2)$ est discret et $$P_{(X_1+X_2,X_1)} = \sum_{(t,u)\in \varphi(\llbracket 0,n_1\rrbracket\times \llbracket 0,n_2\rrbracket)} P_{(X_1,X_2)}(\varphi^{-1}((t,u))\cap \llbracket 0,n_1\rrbracket\times \llbracket 0,n_2\rrbracket)$$
+$\star$ On a $\begin{aligned}[t]\varphi(\llbracket 0,n_1\rrbracket\times \llbracket 0,n_2\rrbracket)&=\{(t+u,t), \; t\in \llbracket 0,n_1\rrbracket \text{ et } u\in \llbracket 0,n_2\rrbracket\} \\
+&= \{(x,y), \; y\in \llbracket 0,n_1\rrbracket \text{ et } x\in \llbracket y,y+n_2\rrbracket\} \\
+&= \{(x,y), \; x\in \llbracket 0,n_1+n_2\rrbracket \text{ et } y \in \llbracket \max(0,x-n_2),\min(n_1,x)\rrbracket \}
+\end{aligned}$\newline
+$\star$ Pour $(t,u)\in \varphi(\llbracket 0,n_1\rrbracket\times \llbracket 0,n_2\rrbracket)$, on a $$\hspace*{-3.0cm}\begin{aligned}
+P_{(X_1,X_2)}(\varphi^{-1}((t,u))\cap \llbracket 0,n_1\rrbracket\times \llbracket 0,n_2\rrbracket) &=
+P(\{w\in \Omega,\; \varphi(X_1(w),X_2(w))=(t,u) \text{ et } (X_1(w),X_2(w))\in \llbracket 0,n_1\rrbracket\times \llbracket 0,n_2\rrbracket \}) \\
+&= P(\{w\in \Omega,\; X_1(w)=u \text{ et } X_2(w)=t-u  \}) \quad \text {car } t\in \llbracket u,u+n_2\rrbracket  \\
+&= P((X_1=u) \cap (X_2=t-u) )\\
+&= P(X_1=u) P(X_2=t-u)\\
+&= \binom{n_1}{u}\binom{n_2}{t-u}p^t (1-p)^{n_1+n_2-t}
+\end{aligned}$$
+$\star$ Donc $$P_{(X_1+X_2,X_1)} = \sum_{\substack{t\in \llbracket 0,n_1+n_2\rrbracket\\ u\in\llbracket \max(0,t-n_2),\min(n_1,t)\rrbracket }}\binom{n_1}{u}\binom{n_2}{t-u}p^t (1-p)^{n_1+n_2-t}\delta_{\{(t,u)\}}$$
+$\bullet$ Déterminons $P_{X_1+X_2}$.\newline
+Par projection, $$\begin{aligned}
+P_{X_1+X_2} &= \sum_{t\in \llbracket 0,n_1+n_2\rrbracket} \left(\sum_{\substack{(t,u) \\u\in\llbracket \max(0,t-n_2),\min(n_1,t)\rrbracket}} P_{(X_1+X_2,X_1)}(\{(t,u)\})  \right) \delta_{\{t\}} \\
+&= \sum_{t\in \llbracket 0,n_1+n_2\rrbracket} \left( \sum_{u\in\llbracket \max(0,t-n_2),\min(n_1,t)\rrbracket} \binom{n_1}{u}\binom{n_2}{t-u}p^t (1-p)^{n_1+n_2-t} \right) \delta_{\{t\}} \\
+&= \sum_{t\in \llbracket 0,n_1+n_2\rrbracket}  \binom{n_1+n_2}{t}p^t (1-p)^{n_1+n_2-t} \delta_{\{t\}} 
+\end{aligned}$$
+$\bullet$ Déterminons la loi conditionnelle de $X_1$ sachant $X_1+X_2$. Ces deux vaR sont discrets.\newline
+$\star$ pour $t\in\llbracket 0,n_1+n_2\rrbracket$, $$\begin{aligned}\mathcal U_t &=\{u,\; P_{(X_1+X_2,X_1)}(t,u)>0\}\\
+&= \llbracket \max(0,t-n_2),\min(n_1,t)\rrbracket\\
+ \end{aligned} $$
+De sorte que $$P_{X_1}^{X_1+X_2=t} = \sum_{u\in \mathcal U_t} \frac{\binom{n_1}{u}\binom{n_2}{t-u}p^t (1-p)^{n_1+n_2-t}}{\binom{n_1+n_2}{t}p^t (1-p)^{n_1+n_2-t}}\delta_{\{u\}}=\sum_{u\in \mathcal U_t} \frac{\binom{n_1}{u}\binom{n_2}{t-u}}{\binom{n_1+n_2}{t}}\delta_{\{u\}}$$
+$\star$ pour $t\notin\llbracket 0,n_1+n_2\rrbracket$ on pose $P_{X_1}^{X_1+X_2=t} = P_{X_1}$.\newline
+\newline
+$\bullet$ Déterminons $E(X_1|X_1+X_2)$.\newline
+Posons $h:(t,u)\mapsto u$. $h$ est continue donc $(\mathcal B(\mathbb R^2),\mathcal B(\mathbb R))$-mesurable. Alors $h(X_1+X_2,X_1)\in \mathcal M^+(B(\mathbb R^2),\mathcal B(\mathbb R))$ de sorte que \newline
+ $\begin{aligned}[t] \Psi(t)&=\int h(t,u)dP_{X_1}^{X_1+X_2=t}(u) \\
+&= \begin{cases}
+\sum_{u\in \mathcal U_t} u\frac{\binom{n_1}{u}\binom{n_2}{t-u}}{\binom{n_1+n_2}{t}} & \text{ si } t\in \llbracket 0,n_1+n_2\rrbracket \\
+\sum_{u\in \llbracket 0,n_1 \rrbracket} u\binom{n_1}{u}p^u(1-p)^{n_1-u} &\text{ sinon}
+\end{cases}\\
+&= \begin{cases}
+\frac{tn_1}{n_1+n_2} & \text{ si } t\in \llbracket 0,n_1+n_2\rrbracket \\
+n_1p & \text{ sinon }
+\end{cases}
+\end{aligned}$\newline
+Et $$\begin{aligned} E(X_1|X_1+X_2) &= \frac{n_1}{n_1+n_2}(X_1+X_2)\mathbbm 1_{\llbracket 0,n_1+n_2\rrbracket}(X_1+X_2) + n_1p \underbrace{\mathbbm 1_{\llbracket 0,n_1+n_2\rrbracket^c}(X_1+X_2)}_{=\;0 \;P\text{-p.s}} \\
+&=\frac{n_1}{n_1+n_2}(X_1+X_2) \quad P\text{-p.s}  \end{aligned}$$
+
+
+\subsection{} \noindent\fbox{
+\parbox{\linewidth}{
+Soit $(X,Y)$ un couple aléatoire continu de densité $$f(x,y)=\frac{1}{\sqrt{2\pi}}e^{-\frac{x}{2}(y+x)}\mathbbm 1_{(\mathbb R_+^*)^2}(x,y)$$
+\begin{enumerate}
+\item Déterminer la loi conditionnelle de $Y$ sachant $X$.
+\item Déterminer $E(Y|X).$
+\end{enumerate}
+}}\\ 
+\\ 
+\\
+\noindent 1. $(X,Y)$ étant continu, $X$ est continu de densité $\begin{aligned}[t] f_X(x) &=\int \frac{1}{\sqrt{2\pi}}e^{-\frac{x}{2}(y+x)} \mathbbm 1_{\mathbb R_+^*}(x,y) d\lambda(y) \\
+&= \frac{2}{\sqrt{2\pi}}e^{-x^2/2 }\mathbbm 1_{(0,\infty)}(x) 
+\end{aligned}$
+Le support de $X$ est $(0,\infty)$. \newline
+$\star$ Pour $x\in (0,\infty)$, $P_Y^{X=x}$ est une loi continue de densité $$y\mapsto \frac{f(x,y)}{f_X(x)} = \mathbbm 1_{(0,\infty)}(x) \frac{x}{2}e^{-\frac{x}{2}y}$$
+ie une loi exponentielle de paramètre $\frac{x}{2}$.\newline
+$\star$ Pour $x\leq 0$, on pose $P_Y^{X=x}=P_Y$.\newline 
+\newline
+2. Posons $h:(x,y)\mapsto y$. $h$ est continue donc $(\mathcal B(\mathbb R^2),\mathcal B(\mathbb R))$-mesurable. D'après la forme de la densité $f$, $Y$ est $\geq 0 \; P$-p.s, de sorte que $h(X,Y)\in \mathcal M^+(\mathcal A,\mathcal B(\mathbb R))$. \newline
+Donc $\begin{aligned}[t]\Psi(x)&=\begin{cases}
+\int y \mathbbm 1_{(0,\infty)}(x) \frac{x}{2}e^{-\frac{x}{2}y} d\lambda(y) & \text{ si } x>0 \\
+\int y f_Y(y) d\lambda(y) & \text{ si } x\leq 0
+\end{cases}\\
+&= \begin{cases}
+\frac 2x & \text{ si } x>0 \\
+\int y f_Y(y) d\lambda(y) & \text{ si } x\leq 0
+\end{cases}
+\end{aligned}$\newline
+Comme $P(X>0)=1$, $$E(Y|X)=\frac{2}{X} \quad P\text{-p.s} $$
+
+\subsection{} \noindent\fbox{
+\parbox{\linewidth}{
+Soit $(X,Y)$ un couple aléatoire continu de densité $f(x,y)=e^{-y}\mathbbm 1_{D}(x,y)$ avec $D=\{(x,y),\; 0<x<y\}$.
+\begin{enumerate}
+\item Déterminer la loi conditionnelle de $X$ sachant $Y$.
+\item Soit $h\in \mathcal M^+(\mathcal B(\mathbb R), \mathcal B(\mathbb R))$. Déterminer $E(h(\frac{X}{Y})|Y)$.
+\item Sans calculer la loi de $(\frac{X}{Y},Y)$, montrer que $\frac{X}{Y}$ et $Y$ sont indépendantes. 
+\end{enumerate}
+}}\\ 
+\\ 
+\\
+\noindent 1. $(X,Y)$ étant continu, $Y$ est continu de densité $\begin{aligned}[t]f_Y(y)&=\int e^{-y}\mathbbm 1_{D}(x,y) d\lambda(x)\\ &= \int e^{-y}\mathbbm 1_{(0,\infty)}(y)\mathbbm 1_{(0,y)}(x) d\lambda(x)\\
+&=ye^{-y}\mathbbm 1_{(0,\infty)}(y) \end{aligned}$ \newline
+Le support de $Y$ est $(0,\infty)$.\newline
+$\star$ Pour $y>0$, $P_X^{Y=y}$ est une loi continue de densité $x\mapsto \frac{1}{y}\mathbbm 1_{(0,y)}(x)$.\newline
+$\star$ Pour $y\leq 0$, on pose $P_X^{Y=y} = P_X$.\newline
+\newline
+2. Soit $h\in \mathcal M^+(\mathcal B(\mathbb R), \mathcal B(\mathbb R))$. Posons $g:(x,y)\mapsto h(\frac{x}{y})$. $g$ est mesurable positive.\newline
+On a $\begin{aligned}[t]\Psi(y) &= 
+\begin{cases}
+\int h(\frac xy) \frac 1y \mathbbm 1_{(0,y)}(x) d\lambda(x) & \text{si } y>0 \\
+\int h(\frac xy) dP_X(x) & \text{sinon }
+\end{cases} \\
+&=\begin{cases}
+\int h(u) \mathbbm 1_{(0,1)}(u) d\lambda(u) & \text{si } y>0 \\
+\int h(\frac xy) dP_X(x) & \text{sinon }
+\end{cases}
+\end{aligned}
+$\newline
+Comme $P(Y>0)=1$, $$E(h(\frac XY)|Y)=\int h(u) \mathbbm 1_{(0,1)}(u) d\lambda(u) \quad P\text{-p.s}$$
+3. On fait appel au critère des espérances. Soient $g,h\in \mathcal M^+(\mathcal B(\mathbb R),\mathcal B(\mathbb R))$.
+$$\begin{aligned}
+E\left[g(Y)h(\frac{X}{Y})\right] &= E\left[E\left(g(Y)h(\frac{X}{Y})\middle|Y\right)\right] \\
+&= E\left[g(Y)E\left(h(\frac{X}{Y})\middle|Y\right)\right] \quad \text{car } g(Y)\in \mathcal M(\sigma(Y),\mathcal B(\mathbb R)) \\
+&= E\left[g(Y)\int \ldots \right] \quad \text{d'après 2.} \\
+&= \left(\int \ldots\right) E\left(g(Y)\right) \quad \text{l'intégrale est une constante}\\
+&= E\left(\int \ldots\right)E\left(g(Y)\right) \quad \text{l'intégrale est une constante} \\
+&= E\left[E\left(h(\frac{X}{Y})\middle|Y\right)\right] E\left(g(Y)\right) \quad \text{d'après 2.} \\
+&= E\left( h(\frac{X}{Y})\right)E\left(g(Y)\right)
+ \end{aligned}$$
+ Donc $\frac{X}{Y}$ et $Y$ sont indépendantes.
+
+\subsection{} \noindent\fbox{
+\parbox{\linewidth}{
+Soit $(X,Y)$ un couple aléatoire continu de densité $$f(x,y)=\frac{1}{4\pi } e^{-\frac{1}{2}(\frac{x^2}{2}-xy+y^2)}$$
+\begin{enumerate}
+\item Déterminer la loi conditionnelle de $Y$ sachant $X$.
+\item Montrer que $Y-\frac{X}{2}$ est indépendant de $X$ et préciser sa loi. 
+\end{enumerate}
+}}\\ 
+\\ 
+\\
+\noindent 1. $(X,Y)$ étant continu, $X$ est continu de densité $\begin{aligned}[t] 
+f_X(x)&=\frac{1}{4\pi}\int e^{-\frac 12 (y-\frac{x}{2})^2}e^{-\frac{x^2}{8}} d\lambda(y)\\
+&= \frac{e^{-x^2/8}\sqrt{2\pi}}{4\pi}
+\end{aligned}$\newline
+Le support de $X$ est $\mathbb R$.\newline
+Pour tout $x\in \mathbb R$, $P_Y^{X=x}$ est une loi continue de densité $$\displaystyle y\mapsto \frac{\frac{1}{4\pi } e^{-\frac{1}{2}(\frac{x^2}{2}-xy+y^2)}}{\frac{e^{-x^2/8}\sqrt{2\pi}}{4\pi}} = \frac{e^{-\frac 12 (y-\frac{x}{2})^2}}{\sqrt {2\pi}}$$
+qui est la densité d'une loi normale de paramètres $(\frac{x}{2},1)$.
+\\ \\
+\noindent 2. Soit $h\in \mathcal M^+(\mathcal B(\mathbb R),\mathcal B(\mathbb R))$. Posons $\varphi:(x,y)\mapsto h(y-\frac{x}{2})$. $\varphi$ étant mesurable positive, on a pour $x\in \mathbb R$, $\begin{aligned}[t]
+\Psi(x) &= \int \varphi(x,y)dP_Y^{X=x}(y) \\
+&= \int h(y-\frac{x}{2}) \frac{e^{-\frac 12 (y-\frac{x}{2})^2}}{\sqrt {2\pi}} d\lambda(y) \\
+&= \int h(y) \frac{e^{-\frac 12 y^2}}{\sqrt {2\pi}} d\lambda(y)\\
+&= C_h
+\end{aligned}$\newline
+De sorte que $E\left(h(Y-\frac{X}{2})\middle| X\right) = C_h \quad P\text{-p.s}$\newline
+\newline
+Soit $g\in \mathcal M^+(\mathcal B(\mathbb R),\mathcal B(\mathbb R))$.
+On a $\begin{aligned}[t]
+E\left[g(X)h(Y-\frac{X}{2})\right] &=
+E\left[E\left(g(X)h(Y-\frac{X}{2})\middle|X\right)\right] \\
+&=E\left[g(X)E\left(h(Y-\frac{X}{2})\middle|X\right)\right] \\
+&= E[g(X)C_h] \\
+&= C_h E[g(X)] \\
+&= E(C_h) E[g(X)] \\
+&=E\left[E\left(h(Y-\frac{X}{2})\middle|X\right)\right]E[g(X)] \\
+&=E\left( h(Y-\frac{X}{2})\right) E(g(X))
+\end{aligned}$\newline
+Donc $X$ et $Y-\frac{X}{2}$ sont indépendants.\newline
+\newline
+Par ailleurs, $\begin{aligned}[t]\int h(u)dP_{Y-\frac{X}{2}}(u) = E(h(Y-\frac{X}{2})) &= E\left[E\left(h(Y-\frac{X}{2})\middle|X\right)\right]\\
+&= E(C_h) \\
+&= C_h \\
+&= \int h(y) \frac{e^{-\frac 12 y^2}}{\sqrt {2\pi}} d\lambda(y) \end{aligned}$
+\newline
+Ceci étant vrai pour tout $h$, $Y-\frac{X}{2}$ admet une densité par rapport à $\lambda$ donnée par $y\mapsto \frac{e^{-\frac 12 y^2}}{\sqrt {2\pi}}$.\newline
+Donc $Y-\frac{X}{2}$ suit la loi normale de paramètres $(0,1)$.
+
+\subsection{} \noindent\fbox{
+\parbox{\linewidth}{
+Soit $(X,Y)$ un couple aléatoire continu de loi $P_{(X,Y)}$ admettant une densité par rapport à $N\otimes \lambda$, $N$ étant la mesure de comptage sur $\mathbb N$. Cette densité est donnée par $$f(x,y)=\frac{y^{p+x-1}}{x!}\frac{\theta^p}{(p-1)!}e^{-(\theta+1)y}\mathbbm 1_{\mathbb N}(x)\mathbbm 1_{(0,\infty)}(y)$$
+avec $p\in \mathbb N^*$ et $\theta >0$.
+\begin{enumerate}
+\item Calculer $P_X$.
+\item Déterminer la loi conditionnelle de $Y$ sachant $X$.
+\item Calculer $E(Y|X)$.
+\end{enumerate}
+}}\\ 
+\\ 
+\\
+\noindent 1. $X$ est la marginale d'un couple à densité, de sorte que $$f_X(x)=\int f(x,y)d\lambda(y) = \mathbbm 1_{\mathbb N}(x)\binom{p+x-1}{x}\frac{\theta^p}{(\theta+1)^{p+x}}$$
+Alors $P_X(\{x\})=\sum_{k=0}^\infty \mathbbm 1_{\{x\}}(k)f_X(k) $. $X$ est donc discrète, de support $\mathbb N$, de loi $$P_X = \sum_{k\in \mathbb N} f_X(k) \delta_{\{k\}}$$
+2. On a pour $(A,B)\in \mathcal B(\mathbb R)^2$, 
+$$
+P_{(X,Y)}(A,B) = P_{(X,Y)}(A\cap \mathbb N,B) + P_{(X,Y)}(A\cap \mathbb N^c,B)$$
+Avec
+$$\begin{aligned}P_{(X,Y)}(A\cap \mathbb N,B)&= \int_{A\cap \mathbb N}f_X(x) \left(\frac{(\theta+1)^{p+x}}{(p+x-1)!} \int_{B\cap \mathbb R_+^*} y^{p+x-1}e^{-(\theta+1)y} d\lambda(y)\right) dN(x)  \\
+&=\int_A \mathbbm 1_{\mathbb N}(x) \frac{(\theta+1)^{p+x}}{(p+x-1)!} \int_{B\cap \mathbb R_+^*} y^{p+x-1}e^{-(\theta+1)y} d\lambda(y) \;dP_X(x)
+\end{aligned}$$
+$P_{(X,Y)}(A\cap \mathbb N^c,B) \leq P_{(X,Y)}(\mathbb N^c,\mathbb R) = P_{X}(\mathbb N^c)=0$, donc 
+$$ P_{(X,Y)}(A,B) = \int_A \mathbbm 1_{\mathbb N}(x) \frac{(\theta+1)^{p+x}}{(p+x-1)!} \int_{B\cap \mathbb R_+^*} y^{p+x-1}e^{-(\theta+1)y} d\lambda(y) \;dP_X(x)$$
+On pose donc 
+$\begin{aligned}[t] N(x,B)&=\begin{cases}
+\frac{(\theta+1)^{p+x}}{(p+x-1)!} \int_{B\cap \mathbb R_+^*} y^{p+x-1}e^{-(\theta+1)y} d\lambda(y) & \text{si } x\in \mathbb N \\
+P_y(B) & \text{sinon }
+\end{cases}\\
+&= \begin{cases}
+\int_B \frac{(\theta+1)^{p+x}}{(p+x-1)!} y^{p+x-1}e^{-(\theta+1)y} \mathbbm 1_{\mathbb R_+^*}(y) d\lambda(y) & \text{si } x\in \mathbb N \\
+P_y(B) & \text{sinon }
+\end{cases}
+\end{aligned}$\newline
+Pour $x\in \mathbb N$, $N(x,\cdot)$ admet une densité par rapport à $\lambda$ donnée par $$\frac{(\theta+1)^{p+x}}{(p+x-1)!} y^{p+x-1}e^{-(\theta+1)y} \mathbbm 1_{\mathbb R_+^*}(y) $$
+On reconnait la densité d'une loi $\Gamma(p+x,\theta+1)$.\newline
+\newline
+3. Posons $h:(x,y)\mapsto y$. $h$ est continue donc $(\mathcal B(\mathbb R^2),\mathcal B(\mathbb R))$-mesurable. D'après la forme de la densité $f$, $Y$ est $\geq 0 \; P$-p.s, de sorte que $h(X,Y)\in \mathcal M^+(\mathcal A,\mathcal B(\mathbb R))$. \newline
+Donc $\begin{aligned}[t]
+\Psi(x)&=\begin{cases}
+\int y \frac{(\theta+1)^{p+x}}{(p+x-1)!} y^{p+x-1}e^{-(\theta+1)y} \mathbbm 1_{\mathbb R_+^*}(y) d\lambda(y) & \text{si } x\in \mathbb N \\
+\int y dP_y(y) & \text{sinon }
+\end{cases} \\
+&=\begin{cases}
+\frac{p+x}{\theta +1} & \text{si } x\in \mathbb N \\
+\int y dP_y(y) & \text{sinon }
+\end{cases}
+\end{aligned}$ \newline
+Comme $P(X\in \mathbb N)=1$, $$E(Y|X)=\frac{p+X}{\theta +1}$$
+
+
+\subsection{} \noindent\fbox{
+\parbox{\linewidth}{
+Soient $U$ une var de loi exponentielle de paramètre $\lambda >0$ et $X$ une variable positive $P$-p.s, indépendante de $U$. Calculer $E(\inf(X,U)|X)$.
+}}\\ 
+\\ 
+\\
+\noindent Comme $X$ et $U$ sont indépendants, la loi conditionnelle de $U$ sachant $X$ est simplement $P_U^{X=x}=P_U$.\newline
+Par ailleurs, $\inf(X,U) = X \mathbbm 1_{X\leq U} + U\mathbbm 1_{U<X}$, de sorte que $$\begin{aligned}[t] E(\inf(X,U)|X) &= E(X \mathbbm 1_{X\leq U} + U\mathbbm 1_{U<X}|X)\\
+&= E(X \mathbbm 1_{X\leq U}|X) + E(U\mathbbm 1_{U<X}|X) \\
+&= X E(\mathbbm 1_{X\leq U}|X) + E(U\mathbbm 1_{U<X}|X)
+\end{aligned}$$
+$(x,u)\mapsto \mathbbm 1_{x\leq u}$ est mesurable positive (il s'agit de $(x,u)\mapsto \mathbbm 1_D(x,u)$ avec $D=\{(x,u),\; u\geq x\}$ qui est fermé donc borélien), et $(x,u)\mapsto u\mathbbm 1_{u<x}$ est mesurable comme produit de $(x,u)\mapsto u$ et $(x,u)\mapsto \mathbbm 1_{D}(x,u)$ où $D=\{(x,u),\; x>u\}$ qui est ouvert donc borélien). De plus, $U$ est $\geq 0\; P$-p.s, donc $U\mathbbm 1_{U<X}\in \mathcal M^+(\mathcal A, \mathcal B(\mathbb R))$.  En calculant les deux intégrales correspondantes (en passant par la densité de $U$), $$E(\mathbbm 1_{X\leq U}|X) = 1_{\mathbb R_-^*}(X) + 1_{\mathbb R_+}(X)e^{-\lambda X}$$ et $$E(U\mathbbm 1_{U<X}|X) = 1_{\mathbb R_+}(X)\left(-Xe^{-\lambda X}+\frac{1}{\lambda}-\frac{e^{-\lambda X}}{\lambda}\right)$$
+Comme $X\geq 0$ $P$-p.s, $E(\mathbbm 1_{X\leq U}|X) = e^{-\lambda X}$ et $$E(U\mathbbm 1_{U<X}|X) =-Xe^{-\lambda X}+\frac{1}{\lambda}-\frac{e^{-\lambda X}}{\lambda}$$
+Finalement, $$E(\inf(X,U)|X) = \frac{1-e^{-\lambda X}}{\lambda}$$
+
+\subsection{} \noindent\fbox{
+\parbox{\linewidth}{
+Soit $N$ une var discrète de loi $P_N$ de support $\llbracket 0,n \rrbracket$ donnée par $$P_N=\sum_{k\in \llbracket 0,n \rrbracket} \alpha_k \delta_{\{k\}} $$Soit $(X_n)$ une suite de var indépendantes et de même loi de Bernoulli de paramètre $p\in(0,1)$.\newline
+On suppose que $N$ et les $X_n$ sont indépendants. \newline
+Soit $S$ la var définie par $S=\sum_{k=0}^N X_k$.
+\begin{enumerate}
+\item Déterminer la loi conditionnelle de $S$ sachant $N$.
+\item Calculer $E(S|N)$ et $E(S^2|N)$. En déduire $E(S)$ et $E(S^2)$ en fonction de $E(N)$ et $E(N^2)$.
+\item Déterminer la loi de $(N,S)$.
+\item Soit $q\in (0,1)$. Déterminer la loi de $N$ pour que la loi conditionnelle de $N$ sachant $S=0$ soit la loi binomiale de paramètre $(n,q)$
+\end{enumerate}
+}}\\ 
+\\ 
+\\
+\noindent 1. $\bullet$ $X_0,\ldots,X_n,N$ étant discrets et indépendants, $(X_0,\ldots,X_n,N)$ est un vaR discret. Par ailleurs, $S=\sum_{k=0}^n \mathbbm 1_{k\leq N} X_k$. Or $\varphi:(x_0,\ldots,x_n,m)\mapsto (p,\sum_{k=0}^n \mathbbm 1_{k\leq m} x_k)$ est $(\mathcal B(\mathbb R^{n+2}), \mathcal B(\mathbb R^2))$-mesurable, de sorte que $(N,S)$ est un var discret, de support $\llbracket 0,n \rrbracket \times \varphi(\{0,1\}^{n+1} \times \llbracket 0,n\rrbracket)= \llbracket 0,n \rrbracket \times \llbracket 0,n+1 \rrbracket$. \newline
+\newline
+$\bullet$ Déterminons, pour $(m,s)\in \llbracket 0,n \rrbracket \times \llbracket 0,n+1 \rrbracket$, $\begin{aligned}[t] P_{(N,S)}(\{(m,s)\})
+&= P((N=m)\cap (S=s)) \\
+&= P((N=m) \cap \left( \sum_{k=0}^m X_k = s\right))
+\end{aligned}
+$\newline
+Or à $m$ fixé, $X_1,\ldots X_m,N$ sont indépendantes, et d'après le lemme des coalitions, $\sum_{k=1}^m X_k$ et $N$ sont indépendantes, de sorte que
+$$\begin{aligned}[t] P_{(N,S)}(\{(m,s)\})
+&= P((N=m) \cap \left( \sum_{k=0}^m X_k = s\right)) \\
+&= P(N=m) P(\underbrace{\sum_{k=0}^m X_k}_{\text{suit une loi }\mathcal B(m+1,p)} = s) \\
+&= \alpha_m \binom{m+1}{s}p^s(1-p)^{m+1-s}
+\end{aligned}$$
+Par conséquent, $$ P_{(N,S)} = \sum_{(m,s)\in\llbracket 0,n \rrbracket \times \llbracket 0,n+1 \rrbracket} \alpha_m \binom{m+1}{s}p^s(1-p)^{m+1-s} \delta_{\{(m,s)\}} $$
+$\bullet$ Déterminons la loi conditionnelle de $S$ sachant $N$. $N$ et $S$ sont discrets.\newline
+On a pour $m\in \llbracket 0,n \rrbracket$,  $\begin{aligned}[t]
+U_m &=\{ s\in \mathbb R,\; P_{(N,S)}(\{(m,s)\} >0 )\}\\
+&= \llbracket 0,m+1 \rrbracket
+\end{aligned}$\newline
+$\star$ Pour $m\in \llbracket 0,n \rrbracket$, $\begin{aligned}[t]P_S^{N=m} &=\sum_{s\in U_m} \frac{P_{(N,S)}(\{(m,s)\}}{P_N(\{m\})}\delta_{\{s\}} \\
+&=\sum_{s=0}^{m+1}\binom{m+1}{s}p^s(1-p)^{m+1-s} \delta_{\{s\}} 
+\end{aligned}$ \newline
+$\star$ Pour $m\notin \llbracket 0,n \rrbracket$, on pose $P_S^{N=m}=P_S$. \newline
+\newline
+2. $S$ est un var positif, donc $E(S|N)$ est bien défini et vaut $$\begin{aligned} 
+E(S|N) &= E(\sum_{k=0}^n \mathbbm 1_{k\leq N} X_k | N) \\
+&= \sum_{k=0}^n E(\mathbbm 1_{k\leq N} X_k | N) \quad \text{par linéarité} \\
+&= \sum_{k=0}^n \mathbbm 1_{k\leq N} E(X_k|N) \quad \text{car } 1_{k\leq N}\in \mathcal M(\sigma(N),\mathcal B(\mathbb R)) \\
+&= \sum_{k=0}^n \mathbbm 1_{k\leq N} E(X_k) \quad \text{par indépendance} \\
+&= p\sum_{k=0}^n \mathbbm 1_{k\leq N}  \\
+&= p(N+1)
+\end{aligned}$$
+On a $\begin{aligned}[t] S^2&=(\mathbbm 1_{\llbracket 0,n \rrbracket}(N) + \underbrace{\mathbbm 1_{\llbracket 0,n \rrbracket^c}(N)}_{=0 P\text{-p.s.}})S^2 = \mathbbm 1_{\llbracket 0,n \rrbracket}(N) S^2 \\
+&= \sum_{j=0}^n \mathbbm 1_{\{j\}}(N) \left(\sum_{k=0}^j X_k \right)^2 \end{aligned}$ \newline
+De sorte que $$\begin{aligned}
+E(S^2|N) &= \sum_{j=0}^n \mathbbm 1_{\{j\}}(N) E\left[\left(\sum_{k=0}^j X_k \right)^2 \right]
+\end{aligned}$$
+Or à $j$ fixé, $Y_j:=\sum_{k=0}^j X_k$ suit une loi binomiale de paramètres $(j+1,p)$, de sorte que $$E\left[\left(\sum_{k=0}^j X_k \right)^2 \right] = V\left( Y_j\right) + E(Y_j)^2= (j+1)p(1-p) + (j+1)^2p^2=p(j+1)(jp+1)$$
+D'où $\displaystyle E(S^2|N) = \sum_{j=0}^n \mathbbm 1_{\{j\}}(N) p(j+1)(jp+1) = p(N+1)(pN+1)=p(pN^2 + (p+1)N + 1)$\newline 
+\newline
+Par conséquent, $E(S) =p(E(N)+1)$ et $E(S^2) = p(pE(N^2) + (p+1)E(N) +1)$\newline
+\newline 
+3. cf 1. \newline
+\newline 
+4. Avec des calculs similaires à $1$, $P_N^{S=0}=\sum_{m=0}^n\alpha_m \delta_{\{m\}}=P_N$. $P_N^{S=0}$ suit $\mathcal B(n,q)$ si et seulement si $P_N=\mathcal B(n,q)$.
+
+\newpage
+\subsection{} \noindent\fbox{
+\parbox{\linewidth}{
+Soit $(X_n)$ une suite de va intégrables, indépendantes et de même loi. Pour tout $n\geq 1$ on pose $S_n=\sum_{k=1}^nX_k$.
+\begin{enumerate}
+\item Pour tout $i\in \llbracket 1,n \rrbracket$, calculer $E(S_n|X_i)$.
+\item Montrer que pour tout $k\in \llbracket 2,n \rrbracket$, $P_{(X_1,S_n)}=P_{(X_k,S_n)}$
+\item En déduire que pour tout $k\in \llbracket 2,n \rrbracket$, $E(X_1|S_n)=E(X_k|S_n)$.
+\item Calculer $E(S_n|S_n)$. En déduire $E(X_1|S_n)$.
+\end{enumerate}
+}}\\ 
+\\ 
+\\
+\noindent 1. On montre facilement que $S_n$ est intégrable, donc $E(S_n|X_i)$ existe. On a $\begin{aligned}[t]
+E(S_n|X_i) &= E\left(\sum_{k=1}^nX_k \middle| X_i\right) \\
+&= \sum_{k=1}^n E(X_k|X_i)\\
+&= E(X_i|X_i) + \sum_{k\neq i}E(X_k|X_i)\\
+&= X_i + (n-1)E(X_1)
+\end{aligned}$ \newline 
+\newline
+2. Par indépendance de $X_1,\ldots,X_n$, $P_{(X_1,\ldots,X_n)}=P_{X_1}\otimes\ldots \otimes P_{X_n} $. Comme les variables sont identiquement distribuées, $P_{X_1}=P_{X_2}$, de sorte que $$\begin{aligned}[t]
+P_{(X_1,\ldots,X_n)}&=P_{X_1}\otimes\ldots \otimes P_{X_n} \\
+&= P_{X_2}\otimes P_{X_1}\otimes \ldots \otimes P_{X_n} \\
+&= P_{(X_2,X_1\ldots,X_n)}
+\end{aligned}$$
+Considérons $\varphi:(x_1,\ldots,x_n)\mapsto (x_1,\sum_{k=1}^n x_k)$. $\varphi$ est continue, donc $(\mathcal B(\mathbb R^n),\mathcal B(\mathbb R^2))$-mesurable. L'égalité en loi est préservée: $P_{\varphi(X_1,\ldots,X_n)} = P_{\varphi(X_2,\ldots,X_n)} $ ie $$P_{(X_1,S_n)}=P_{(X_2,S_n)}$$
+On procède de même avec $k>2$.\newline
+\newline
+3. Soit $k\in \llbracket 2,n \rrbracket$. Considérons $C\in \sigma(S_n)$. On dispose de $B\in \mathcal B(\mathbb R)$ tel que $C=S_n^{-1}(B)$. Alors $$\begin{aligned}[t]
+E(\mathbbm 1_C E(X_1|S_n)) = E(\mathbbm 1_CX_1)&=E(\mathbbm 1_B(S_n)X_1) \\
+&= \int x 1_B(s) dP_{(X_1,S_n)}(x,s) \quad \text{transfert justifié par }\\ &\int|X_1(w)|1_B(S_n(w)) dP(w)\leq \int|X_1(w)| dP(w)<\infty \\
+&=\int x 1_B(s) dP_{(X_k,S_n)}(x,s) \\
+&= E(\mathbbm 1_CX_k)\\
+&= E(\mathbbm 1_C E(X_k|S_n))
+\end{aligned}$$
+Ceci étant vrai pour tout $C\in \sigma(S_n)$, on a $E(X_1|S_n)=E(X_k|S_n)$\newline
+\newline
+4. On a par linéarité $\begin{aligned}[t]
+E(S_n|S_n)&=\sum_{k=1}^n E(X_k|S_n) \\
+&= n E(X_1|S_n) \quad \text{par 3}.
+\end{aligned}$ \newline
+Or $S_n\in \mathcal M(\sigma(S_n),\mathcal B(\mathbb R))$, donc $E(S_n|S_n)= S_n$. En conclusion: $$E(X_1|S_n)=\frac{S_n}{n}$$
+
+\newpage
+\section{Fonction caractéristique}
+
+\subsection{} \noindent\fbox{
+\parbox{\linewidth}{
+Déterminer la fonction caractéristique des lois suivantes
+\begin{enumerate}
+\item Loi de Bernoulli de paramètre $p\in [0,1]$.
+\item Loi de Poisson de paramètre $\lambda >0$.
+\item Loi géométrique de paramètre $p\in (0,1)$.
+\item Loi binomiale $\mathcal B(n,p)$.
+\item Loi exponentielle de paramètre $\theta >0$.
+\item Soient $X_1,\ldots, X_n$ $n$ var discrètes, indépendantes et de même loi de Bernoulli de paramètre $p\in (0,1)$. Déterminer la loi de $S_n=\sum_{i=1}^n X_i$.
+\end{enumerate}
+}}\\ 
+\\ 
+\\
+\noindent Dans chaque cas on applique le théorème de transfert, ce qui est licite car $x\mapsto e^{itx}$ est bornée.\newline
+1. $\phi_X(t)=e^{it\cdot 1}p + e^{it\cdot 0}(1-p)=1-p + pe^{it}$\newline
+2. $\phi_X(t)=\sum_{k=0}^\infty e^{itk} e^{-\lambda} \frac{\lambda^k}{k!}=e^{-\lambda} \sum_{k=0}^\infty \frac{(\lambda e^{it})^k}{k!}=e^{-\lambda+\lambda e^{it}}=e^{\lambda(e^{it}-1)}$\newline
+3. $\phi_X(t)=\sum_{k=1}^\infty e^{itk} (1-p)^{k-1}p= pe^{it}\sum_{k=0}^\infty ((1-p)e^{it})^k=\frac{pe^{it}}{1-(1-p)e^{it}}$\newline
+4. $\begin{aligned}[t] \phi_X(t)&=\sum_{k=0}^n e^{itk} \binom{n}k p^k(1-p)^{n-k} = \sum_{k=0}^n \binom{n}k (pe^{it})^k(1-p)^{n-k} \\&= (1-p+pe^{it})^n \end{aligned}$\newline
+5. $\begin{aligned}[t] \phi_X(t)&= \int e^{itx}\theta e^{-\theta x} \mathbbm 1_{(0,\infty)}(x) d\lambda(x) 
+= \int_{(0,\infty)} \theta e^{x(-\theta +it)}d\lambda(x) \\
+&=\frac{\theta}{\theta -it}
+\end{aligned}$\newline 
+6. $X_1,\ldots,X_n$ étant indépendantes et de même loi, $$\phi_{S_n}(t)=(\phi_{X_1}(t))^n = (1-p + pe^{it})^n $$
+
+\subsection{} \noindent\fbox{
+\parbox{\linewidth}{
+On admet que la fonction caractéristique de la loi $\mathcal C(1)$ est $\forall t,\; \phi(t)=e^{-|t|}$.\newline
+Soient $X_1,\ldots,X_n$ $n$ var continues, indépendantes, et de même loi $\mathcal C(1)$.
+\begin{enumerate}
+\item Calculer la fonction caractéristique de $X_1+X_2$ et celle de $2X_1$. Que constatez-vous ?
+\item Soient $\phi_U$ et $\phi_V$ les fonctions caractéristiques respectives de deux var $U$ et $V$ qui vérifient $\phi_{U+V}=\phi_U \phi_V$. Cela implique-t-il que $U$ et $V$ sont indépendantes ?
+\item Calculer la loi de $\overline X=\frac{1}{n}\sum_{i=1}^n X_i$.
+\end{enumerate}
+}}\\ 
+\\ 
+\\
+\noindent 1. Par indépendance, $\phi_{X_1+X_2}(t)=(\phi_{X_1}(t))^2=e^{-2|t|}$. Par ailleurs, $$\phi_{2X_1}(t)=E(e^{it2X_1})=\phi_{X_1}(2t)=e^{-2|t|}$$
+Par injectivité, $2X_1\sim X_1+X_2$. \newline
+\newline
+2. Non. On a $\phi_{X_1+X_1}=\phi(X_1)^2$, pourtant $X_1$ n'est pas indépendant de $X_1$. Sinon, $$P(X_1\geq 0)= P((X_1\geq 0)\cap(X_1\geq 0))=P(X_1\geq 0)^2$$ donc $P(X_1\geq 0)\in \{0,1\}$, or $P(X_1\geq 0)=\frac{1}{2}$, absurde. \newline
+\newline
+3. $\begin{aligned}[t] \phi_{\overline X_n}(t) &= E(e^{it\frac{1}{n}\sum_{i=1}^n X_i}) = E(\prod_{k=1}^n e^{i\frac{t}{n}X_i})
+= \prod_{k=1}^n E(e^{i\frac{t}{n}X_i}) 
+= \prod_{k=1}^n \phi_{X_i}(\frac{t}{n}) \\
+&= (\phi_{X_1}(\frac{t}{n}))^n =e^{-|t|}
+\end{aligned}$\newline
+Par injectivité, $\overline X_n$ suit $\mathcal C(1)$.
+
+\subsection{} \noindent\fbox{
+\parbox{\linewidth}{
+Soit $X$ une var ayant une fonction caractéristique du type $\phi(t)=e^{At^2+Bt+C}$ avec $A,B,C\in \mathbb C^3$.\newline
+Montrer que $X$ suit une loi normale et en déterminer les paramètres.
+}}\\ 
+\\ 
+\\
+\noindent $\phi$ étant une fonction caractéristique, $\phi(0)=1$, donc $e^C=1$, de sorte que $\phi(t)=e^{At^2+Bt}$ pour tout $t\in \mathbb R$.\newline
+\newline
+\textbf{Lemme}: Si $z\in \mathbb C$, $\overline{e^{z}}=e^{\overline z}$.\newline
+En effet, $$\begin{aligned} \overline{e^{z}}&= \overline{ \exp(\re z + i\im z) } = \overline{\exp(\re z)\exp(i\im z)}=\exp(\re z)\exp(-i\im z) \\
+&= e^{\overline z}\end{aligned} $$
+$\phi$ étant une fonction caractéristique, $\overline{\phi(t)} =\phi(-t)$ ie 
+$e^{\overline At^2 + \overline Bt} = e^{At^2-Bt}$ soit encore $e^{(A-\overline A)t^2} = e^{(B+\overline B)t}$ ie $e^{2i\im A t^2}=  e^{2\re B t} \quad (*)$.\newline
+Le membre de droite est réel, de sorte que pour $t$, $$\im e^{2i\im A t^2} = 0$$
+donc $\sin(2\im A t^2)=0$ pour tout $t\in \mathbb R$.\newline
+Donc $\im A=0$. $(*)$ devient $e^{2\re B t}=1$ pout tout $t\in \mathbb R$, donc $\re B=0$.\newline
+\newline
+Donc $\phi(t) = e^{\re At^2 + i\im Bt}$. Comme $\phi$ est une fonction caractéristique, $|\phi|\leq 1$, donc $\re A\leq 0$. \newline
+\newline
+$\bullet$ Si $\re A=0$, $\phi(t) = e^{i\im Bt}$. Par injectivité, $X$ est constante presque-sûrement (égale à $\im B$).\newline
+$\bullet$ Si $\re A<0$, $\phi(t) = e^{i\im Bt -t^2 \frac{(\sqrt{-2\re A})^2}{2}}$\newline
+Par injectivité, $X$ suit la loi normale de paramètre $(\im B, -2\re A)$\newline
+\newline
+Culture: Si $e^{P(t)}$ est une fonction caractéristique (où $P$ est un polynôme), alors $\deg P \leq 2$. (théorème de Marcinkiewicz 1933) 
+
+
+\subsection{} \noindent\fbox{
+\parbox{\linewidth}{
+Soit $X$ une var continue de loi de Laplace de paramètre $1$.
+\begin{enumerate}
+\item Montrer que $X$ a des moments à tout ordre. Calculer $E(X^{2n+1})$ et $E(X^{2n})$.
+\item Montrer que la fonction caractéristique de $X$ est donnée par $\phi(t)=\frac 1{1+t^2}$.
+\item En déduire que $\forall t\in (-1,1),\; \phi(t)=\sum_{n=0}^\infty (-1)^n t^{2n}$.
+\item On admet que $\phi^{(k)}(t)=\sum_{n=1}^\infty \left[(-1)^n t^{2n} \right]^{(k)}$. Déterminer $\phi^{(2n)}(0)$. En déduire $E(X^{2n})$.
+\end{enumerate}
+}}\\ 
+\\ 
+\\
+\noindent 1. La densité de $X$ par rapport à $\lambda$ est donnée par $f_X(x)=\frac 12 e^{-|x|}$. Pour $n\in \mathbb N$, 
+$$\int |x|^n dP_X(x) = \int |x|^n f_X(x) d\lambda(x)= \frac{1}{2}\int |x|^n e^{-|x|}d\lambda(x) <\infty $$ par un argument asymtotique. Donc $E(|X|^n)<\infty$ et $X$ admet des moments à tout ordre.\newline
+Par ailleurs, $E(X^{2n+1})=\frac{1}{2}\int \underbrace{x^{2n+1} e^{-|x|}}_{\text{impaire}}d\lambda(x)=0$ et $$E(X^{2n})=\frac{1}{2}\int x^{2n} e^{-|x|} d\lambda(x)=\int_{\mathbb R^+}x^{2n} e^{-x} d\lambda(x)= \Gamma(2n+1)=(2n)!$$
+2. La fonction caractéristique de $X$ est donnée par 
+$$\begin{aligned}\phi(t)=E(e^{itX})&=\int e^{itx}\frac 12 e^{-|x|} d\lambda(x)
+=\frac{1}{2}\left(\int_{\mathbb R^-} e^{itx} e^{x} d\lambda(x) + \int_{\mathbb R^+} e^{itx} e^{-x} d\lambda(x) \right)\\
+&=\frac{1}{2}\left(\int_{\mathbb R^-} e^{x(1+it)} d\lambda(x) + \int_{\mathbb R^+} e^{x(-1+it)} d\lambda(x) \right) \\
+&= \frac 1{1+t^2}
+\end{aligned}
+$$
+3. En développant en série entière le résultat obtenu, on a pour $t\in (-1,1)$, $$\phi(t)=\sum_{n=0}^\infty (-1)^n t^{2n}$$
+4. On a $\phi^{(k)}(t)=\sum_{k=n}^\infty (-1)^k 2k(2k-1)\ldots(2k-(2n-1))t^{2k-2n}$ \newline 
+donc $\phi^{(2n)}(0)=(-1)^n(2n)!$. D'après le cours, $\phi^{(k)}(0)=i^kE(X^k)$, donc $$E(X^{2n})=(2n)!$$
+
+
+
+
+\subsection{} \noindent\fbox{
+\parbox{\linewidth}{
+Soit $(X_n)$ une suite de var indépendantes et de même loi $\mu$ symétrique. On suppose que pour tout $n\geq 1$, $\overline X_n=\frac{1}{n}\sum_{i=1}^n X_i$ suit la loi $\mu$.
+\begin{enumerate}
+\item Montrer que $\phi$ la fonction caractéristique associée à $\mu$ est paire et réelle.
+\item Trouver une relation de récurrence sur $\phi$.
+\item Montrer par l'absurde que $\forall t\in \mathbb R,\; \phi(t)>0$.
+\item On pose $\forall t\in \mathbb R,\; p(t)=\ln(\phi(t))$.
+\begin{enumerate}
+\item Montrer que $\forall t\in \mathbb N,\; p(t)=tp(1)$.
+\item Montrer que $\forall t\in \mathbb Q^+,\; p(t)=tp(1)$.
+\item Montrer que $\forall t\in \mathbb R^+,\; p(t)=tp(1)$.
+\item En déduire $p(t)$ pour tout $t\in \mathbb R$.
+\item Montrer que $p(1)\leq 0$.
+\item En déduire $\phi$ et $\mu$.
+\end{enumerate}
+\end{enumerate}
+}}\\ 
+\\ 
+\\
+\noindent 1. $\mu$ étant symétrique, $P_{X_1}=P_{-X_1}$, donc d'après le cours, $\phi$ est paire et réelle.\newline
+\newline 
+2. Pour $n\geq 1$, $\overline X_n$ et $X_1$ ont même loi, donc même fonction caractéristique, de sorte que pour tout $t\in \mathbb R$, $\phi_{\overline X_n}(t)=  \phi(t)$ donc $E(\prod_{i=1}^n e^{i\frac{t}{n}X_i})=\phi(t)$ et par indépendance, $\phi(\frac tn)^n = \phi(t)$. \newline
+\newline
+3. Supposons par l'absurde qu'il existe $t_0\in \mathbb R$ tel que $\phi(t_0)=0$. Alors pour tout $n\geq 1$, $0=\phi(t_0)=\phi(\frac{t_0}n)^n$ donc $\phi(\frac{t_0}n)=0$ pour tout $n\geq 1$. Or $\lim_n \frac{t_0}n=0$ et $\phi$ est continue en $0$ avec $\phi(0)=1$. Donc $0=\lim_n \phi(\frac{t_0}n) = \phi(0)=1$. Absurde. \newline \newline
+$\phi:\mathbb R\to \mathbb R$ est continue, et ne s'annule pas, donc garde un signe constant. Or $\phi(0)=1$. Donc $\phi >0$. \newline
+\newline
+4. a) L'égalité de 2. se réécrit $\forall t\in \mathbb R, \forall n\geq 0, \phi(t)^n = \phi(nt)$ et en passant au $\log$ ($\phi >0$ par 3.), on a $$\forall t\in \mathbb R, \forall n\geq 0,\; p(nt)=np(t) \quad (*)$$
+Avec $t=1$ on a bien $p(n)=np(1)$ pour tout $n\geq 0$.\newline
+\newline
+b) $\bullet$ Pour $b\in \mathbb N^*$, avec $t=\frac{1}{b}$ dans $(*)$, on a $p(1)=p(b\cdot \frac{1}{b})=bp(\frac 1b)$, de sorte que $$p(\frac 1b)=\frac{p(1)}{b}$$
+$\bullet$ Pour $a\in \mathbb N$ et $b\in \mathbb N^*$, $p(\frac ab) = p(a \cdot \frac{1}{b}) = a p(\frac{1}{b}) = a \frac{p(1)}{b} = \frac{a}{b}p(1)$\newline
+Donc pour tout $t\in \mathbb Q^+$, $p(t)=tp(1)$.\newline
+\newline
+c) $\phi$ et $\ln$ étant continus, $p$ est continue sur $\mathbb R$. On étend l'égalité précédente à $\mathbb R^+$ par densité des rationnels. \newline
+\newline
+d) Par parité, on a pour tout $t\leq 0$, $p(t)=p(-t)=(-t)p(1)=|t|p(1)$, donc $p(t)=|t|p(1)$ pour tout $t\in \mathbb R$. \newline
+\newline
+e) On a $0<\phi(t)\leq |\phi(t)| \leq 1$, donc $p(t)\leq 0$ pour tout $t\in \mathbb R$. En particulier, $p(1)\leq 0$. \newline
+\newline
+f) Si $p(1)=0$, pour tout $t$, $\phi(t)=1=E(e^{it0})$ et par injectivité, $X$ est presque sûrement constante, égale à $0$.\newline
+Si $p(1)<0$, pour tout $t$, $\phi(t)=e^{-|t| (-p(1))}$ donc $\mu$ est la loi de Cauchy de paramètre $-p(1)$.
+
+
+\subsection{} \noindent\fbox{
+\parbox{\linewidth}{
+Soient $X$ et $Y$ des var indépendantes, de même loi, de carré intégrable et telles que $E(X)=0$, $V(X)=1$. On note $\phi$ la fonction caractéristique de $X$.
+\begin{enumerate}
+\item On suppose que $\frac{X+Y}{\sqrt 2}$ et $X$ ont même loi.
+
+\begin{enumerate}
+\item Calculer $\phi'(0)$, $\phi''(0)$ et montrer que pour tout $t\in \mathbb R$, $\phi(t)=\phi\left(\frac t{\sqrt 2}\right)^2$
+\item En déduire une relation de récurrence satisfaite par $\phi$ puis donner la loi de $X$.
+\end{enumerate}
+
+\item On suppose que $X+Y$ et $X-Y$ sont indépendantes.
+\begin{enumerate}
+\item Calculer les fonctions caractéristiques de $X+Y$, $X-Y$ et $2X$.
+\item En déduire que $\forall t\in \mathbb R,\; \phi(2t)\phi(-2t)=[\phi(t)\phi(-t)]^4$ puis une relation de récurrence sur $\phi$.
+\item Montrer que $\phi$ ne s'annule pas.
+\item Notons $p(t)=\frac{\phi(t)}{\phi(-t)}$. Montrer que $p(2t)=p(t)^2$ et établie une relation de récurrence sur $p$.
+\item Montrer que $p(t)=1$ pour tout $t\in \mathbb R$.
+\item En déduire une relation de récurrence sur $\phi$.
+\item Déterminer $\phi$ puis la loi de $X$.
+\end{enumerate}
+\end{enumerate}
+}}\\ 
+\\ 
+\\
+\noindent 1. a) $X$ admet un moment d'ordre $2$. D'après le cours on a $\phi'(0)=iE(X)=0$ et $\phi''(0)=-E(X^2)=-1$.\newline
+$\frac{X+Y}{\sqrt 2}$ et $X$ ont même loi, donc même fonction caractéristique: pour $t\in \mathbb R$, $\phi_{\frac{X+Y}{\sqrt 2}}(t) = \phi_X(t)$ ie $E(e^{i\frac{t}{\sqrt 2} X}e^{i\frac{t}{\sqrt 2} Y}) = \phi_X(t)$ et par indépendance, $E(e^{i\frac{t}{\sqrt 2} X}) E(e^{i\frac{t}{\sqrt 2} Y}) = \phi_X(t)$. Comme $X$ et $Y$ ont même loi, on obtient $$\phi(t)=\phi\left(\frac t{\sqrt 2}\right)^2$$ 
+b) L'égalité précédente se réécrit $\phi(\sqrt 2 t) = \phi^2(t)$ ie $\phi(2^{1/2} t) = \phi^{2^1}(t)$.\newline
+En remplaçant $t$ par $\sqrt 2 t$, $\phi(2t)=\phi^2(\sqrt 2t)=\phi^4(t)$ ie $\phi(2^1t)=\phi^{2^2}(t)$. \newline 
+En remplaçant $t$ par $\sqrt 2 t$, $\phi(2^{3/2}t) = \phi^4(\sqrt 2 t)=\phi^8(t)=\phi^{2^3}(t)$. \newline
+On conjecture et on prouve facilement par récurrence que $$ \forall t \in \mathbb R, \forall n\geq 1,\; \phi(2^{n/2}t) = \phi^{2^n}(t)$$ ce qui se réécrit encore $$ \forall t \in \mathbb R, \forall n\geq 1,\; \phi(t) = \phi^{2^n}(\frac{t}{2^{n/2}})$$ ce qui implique $$\forall t \in \mathbb R, \forall n\geq 1,\; \phi(t) = \phi^{2^{2n}}(\frac{t}{2^{n}})$$
+D'après le cours, $\phi$ est $C^2$ et on peut écrire pour tout $t\in \mathbb R$, $\phi(t)=1-\frac{t^2}{2}+o(t^2)$ où le terme d'erreur est \textbf{potentiellement complexe}. On dispose alors de $\varepsilon:\mathbb R\to \mathbb C$ une fonction continue et nulle en $0$ telle que pour tout $t$, $$\phi(t)=1-\frac{t^2}{2}+t^2\varepsilon(t^2)$$
+On fixe $t\in \mathbb R$ et on a $$\phi^{2^{2n}}(\frac{t}{2^{n}}) = \left(1-\frac{t^2}{2}\frac{1}{2^{2n}}+\frac{t^2}{2^{2n}}\varepsilon\left(\frac{t^2}{2^{2n}} \right) \right)^{2^{2n}}$$
+On dispose de $N_0$ tel que $n\geq N_0 \implies 1-\frac{t^2}{2^{2n+1}} \geq 0 $. Pour $n\geq N_0$, 
+$$\begin{aligned} \hspace{-2cm} \left(1-\frac{t^2}{2}\frac{1}{2^{2n}}+\frac{t^2}{2^{2n}}\varepsilon\left(\frac{t^2}{2^{2n}} \right) \right)^{2^{2n}}
+&= \sum_{k=0}^{2^{2n}} \binom{2^{2n}}{k} \left( 1-\frac{t^2}{2}\frac{1}{2^{2n}}\right)^k \left[\frac{t^2}{2^{2n}}\varepsilon\left(\frac{t^2}{2^{2n}} \right) \right]^{2^{2n}-k} \\
+&= \left( 1-\frac{t^2}{2}\frac{1}{2^{2n}}\right)^{2^{2n}} + \sum_{k=0}^{2^{2n}-1} \binom{2^{2n}}{k} \left( 1-\frac{t^2}{2}\frac{1}{2^{2n}}\right)^k \left[\frac{t^2}{2^{2n}}\varepsilon\left(\frac{t^2}{2^{2n}} \right) \right]^{2^{2n}-k}
+\end{aligned}$$
+Or $\left( 1-\frac{t^2}{2}\frac{1}{2^{2n}}\right)^{2^{2n}}$ est une sous-suite de $(1-\frac{t^2/2}{n})^n$. Cette suite converge (moyennant un développement asymptotique classique) vers $e^{-t^2/2}$.
+Il suffit donc de prouver que $$\sum_{k=0}^{2^{2n}-1} \binom{2^{2n}}{k} \left( 1-\frac{t^2}{2}\frac{1}{2^{2n}}\right)^k \left[\frac{t^2}{2^{2n}}\varepsilon\left(\frac{t^2}{2^{2n}} \right) \right]^{2^{2n}-k} \xrightarrow[n\to \infty]{}0$$
+On a $$\hspace{-2cm} \begin{aligned} \left| \sum_{k=0}^{2^{2n}-1} \binom{2^{2n}}{k} \underbrace{\left(  1-\frac{t^2}{2}\frac{1}{2^{2n}}\right)^k}_{\geq 0} \left[\frac{t^2}{2^{2n}}\varepsilon\left(\frac{t^2}{2^{2n}} \right) \right]^{2^{2n}-k} \right| &\leq \sum_{k=0}^{2^{2n}-1} \binom{2^{2n}}{k} \left(  1-\frac{t^2}{2}\frac{1}{2^{2n}}\right)^k \left[\frac{t^2}{2^{2n}}\left|\varepsilon\left(\frac{t^2}{2^{2n}} \right)\right| \right]^{2^{2n}-k}\\
+&= \left(1-\frac{t^2}{2}\frac{1}{2^{2n}}+\frac{t^2}{2^{2n}}\left|\varepsilon\left(\frac{t^2}{2^{2n}} \right)\right| \right)^{2^{2n}}-\left( 1-\frac{t^2}{2}\frac{1}{2^{2n}}\right)^{2^{2n}} \\
+&= \left(1-\frac{t^2}{2}\frac{1}{2^{2n}}+o\left(\frac{1}{2^{2n}} \right) \right)^{2^{2n}}-\left( 1-\frac{t^2}{2}\frac{1}{2^{2n}}\right)^{2^{2n}} \\
+\end{aligned}$$
+Or $$\hspace{-2cm} \begin{aligned}
+\left(1-\frac{t^2}{2}\frac{1}{2^{2n}}+o\left(\frac{1}{2^{2n}} \right) \right)^{2^{2n}}-\left( 1-\frac{t^2}{2}\frac{1}{2^{2n}}\right)^{2^{2n}} 
+&=\exp\left[2^{2n}\ln\left( 1-\frac{t^2}{2}\frac{1}{2^{2n}}+o\left(\frac{1}{2^{2n}}\right)\right)\right] -e^{-t^2/2} + o(1) \\
+&= \exp\left[2^{2n}\left( -\frac{t^2}{2}\frac{1}{2^{2n}}+o\left(\frac{1}{2^{2n}}\right)\right)\right] -e^{-t^2/2} + o(1) \\
+&= \exp\left( -\frac{t^2}{2} + o(1)\right)-e^{-t^2/2} + o(1) \\
+&= e^{-t^2/2} + o(1)-e^{-t^2/2} + o(1) \\
+&= o(1)
+\end{aligned}$$
+Donc $\displaystyle \lim_n \phi^{2^{2n}}(\frac{t}{2^{n}}) = e^{-t^2/2}$ ie $\phi(t)= e^{-t^2/2}$ et par injectivité $X$ suit la loi normale $\mathcal N(0,1)$.\newline
+\newline
+2. a) Par indépendance de $X$ et $Y$ et égalité des lois, $\phi_{X+Y}(t)=\phi^2(t)$, $\phi_{X-Y}(t)=\phi(t) \phi(-t)$ et $\phi_{2X}(t)=\phi(2t)$.\newline
+\newline
+b) Par indépendance de $X+Y$ et $X-Y$, $$\phi_{2X}(t)=\phi_{(X+Y)+(X-Y)}(t)=\phi_{X+Y}(t)\phi_{X-Y}(t)=\phi^3(t)\phi(-t)$$ donc $\phi(2t)=\phi^3(t)\phi(-t)$. En remplaçant $t$ par $-t$, $\phi(-2t)=\phi(t)\phi^3(-t)$ et en multipliant les deux égalités, il vient $$\phi(2t)\phi(-2t)=(\phi(t)\phi(-t))^4$$
+En posant $\psi:t\mapsto \phi(t)\phi(-t) $, on a $\psi(2t)=\psi^4(t)$, donc (récurrence immédiate) pour tout $n\geq 1$ et $t\in \mathbb R$, $\psi(2^nt)=\psi^{2^{2n}}(t)$ ou encore $\psi(t)=\psi^{2^{2n}}(\frac{t}{2^n})$.\newline
+\newline
+c) En supposant l'existence de $t_0$ tel que $\phi(t_0)=0$, on a $\psi(t_0)=0$ donc pour tout $n$, $\psi^{2^{2n}}(\frac{t_0}{2^n})=0$ ie $0=\psi(\frac{t_0}{2^n})=\phi(\frac{t_0}{2^n})\phi(-\frac{t_0}{2^n})$. On dispose alors de $t_n\to 0$ telle que pour tout $n$, $\phi(t_n)=0$, ce qui contredit la continuité de $\phi$ en $0$.\newline
+\newline
+d) On a $\begin{aligned}[t]
+p(2t) &= \frac{\phi(2t)}{\phi(-2t)} = \frac{\phi^3(t)\phi(-t)}{\phi^3(-t)\phi(t)} =\frac{p(t)^3}{p(t)}=p(t)^2
+\end{aligned}$\newline
+On en déduit par récurrence immédiate que pour tout $n\geq 1$ et $t\in \mathbb R$, $$p(2^n t)=p^{2^n}(t)$$
+ou encore $$p(t)=p^{2^n}(\frac{t}{2^n})$$
+e) Par ailleurs, $\begin{aligned}[t] p(t)&=\frac{\phi(t)}{\phi(-t)}=\frac{1-t^2/2+o(t^2)}{1-t^2/2+o(t^2)}=\left(1-\frac{t^2}{2}+o(t^2)\right)\left(1+\frac{t^2}{2}+o(t^2) \right)\\ &= 1+o(t^2) = 1+t^2\varepsilon(t^2)\end{aligned} $ où $\varepsilon:\mathbb R \to \mathbb C $ continue et nulle en $0$.\newline
+De même que précédemment, $p(t)=\lim_n p^{2^n}(\frac{t}{2^n}) = 1$.\newline
+\newline
+f) $\phi$ est donc réelle, avec $\phi(2t)=\phi^4(t)$, donc $\phi(2^nt)=\phi^{2^{2n}}(t)$ et $\phi(t)=\phi^{2^{2n}}(\frac{t}{2^n})$\newline
+\newline
+g) $\phi$ ne s'annule pas donc $\phi>0$. On peut directement faire le développement asymptotique et obtenir $\phi(t)=e^{-t^2/2}$.
+
+
+\subsection{} \noindent\fbox{
+\parbox{\linewidth}{
+Soit $\phi$ la fonction caractéristique d'une var $X$.
+\begin{enumerate}
+\item Supposons qu'il existe $t_0\neq 0$ tel que $|\phi(t_0)=1|$.
+\begin{enumerate}
+\item Montrer qu'il existe $\theta$ tel que $P(\cos(t_0X-\theta)=1)=1$.
+\item Montrer qu'il existe $(a,b)\in \mathbb R^2$ tels que $P(X\in \{a+nb,\; n\in \mathbb Z\})=1$. Que pouvez-vous en déduire sur la nature de $P_X$ ?
+\end{enumerate}
+\item Réciproquement, si $P_X(\{a+nb,\; n\in \mathbb Z\})=1$, que peut-on en déduire de sa fonction caractéristique ?
+\end{enumerate}
+}}\\ 
+\\ 
+\\
+\noindent 1. a)Comme $|\phi(t_0)|=1$, il existe $\theta \in \mathbb R$ tel que $\phi(t_0)=e^{i\theta}$. Alors $E(e^{i(t_0X-\theta)})=1$ ie $E(\cos(t_0X-\theta))+iE(\sin(t_0X-\theta))=1$, donc $E(\cos(t_0X-\theta))=1$ ou encore $E(1-\cos(t_0X-\theta))=0$. \newline
+Or $1-\cos(t_0X-\theta)\geq 0$, donc $1-\cos(t_0X-\theta)=0\; P$-p.s, donc $$P(\cos(t_0X-\theta)=1)=1$$
+b) Pour $\omega \in \Omega$ on a l'équivalence $$\cos(t_0X(w)-\theta)=1 \iff \exists k \in \mathbb Z, \; X(w) = \frac{2\pi}{t_0}k + \frac{\alpha}{t_0}$$
+de sorte que $1=P(\cos(t_0X-\theta)=1)=P(X\in \bigcup_{k\in \mathbb Z} \left( \frac{\alpha}{t_0} +k \frac{2\pi}{t_0}\right))$.\newline
+Notons $A$ l'ensemble obtenu. $A$ est dénombrable et $P_X(A)=1$. Montrons que $X$ est discret. Notons $D_X$ le support de $X$. On a $$1=P_X(A)=P_X(A\cap D_X)+P_X(A\cap D^c_X)=P_X(A\cap D_X)$$ car $A\cap D_X^c$ est dénombrable ($\subset A$) et que si $t\in  D^c_X$, $P_X(\{t\})=0$, de sorte que $P_X(A\cap D^c_X)\leq \sum_{t\in A\cap D^c_X} P_X(\{t\}) = 0$.\newline
+De l'égalité $P_X(A\cap D_X)=1$ on déduit $P_X(D_X)=1$ et $X$ discret. \newline
+Par ailleurs on prouve facilement que $D_X\subset A$, donc \newline $P_X=\sum_{n\in \mathbb Z} P_X(\{a+nb\}) \delta_{\{a+nb\}}$.  \newline
+\newline
+2. Réciproquement, on a encore $D_X\subset A$, donc  $P_X=\sum_{n\in \mathbb Z} P_X(\{a+nb\}) \delta_{\{a+nb\}}$.\newline
+Alors $\begin{aligned}[t]\phi(t)=\int e^{itx} dP_X(x)&=\sum_{n\in \mathbb Z} e^{it(a+nb)}P_X(\{a+nb\})\\ &=e^{ita}\sum_{n\in \mathbb Z} e^{itnb}P_X(\{a+nb\})
+\end{aligned}$\newline
+et $|\phi(t)|=\left| \sum_{n\in \mathbb Z} e^{itnb}P_X(\{a+nb\})\right|$ qui est $\frac{2\pi}b$-périodique si $b\neq 0$ et constant égal à $1$ sinon.
+Dans les deux cas, il existe $t_0\neq 0$ tel que $|\phi(t_0)|=1$.
+
+
+\subsection{} \noindent\fbox{
+\parbox{\linewidth}{
+Soient $X_1$, $X_2$, $X_3$, $X_4$ des var indépendantes et de même loi $\mathcal{N}(0,1)$.\newline
+Soit $Y=\det \begin{pmatrix}
+X_1 & X_2 \\
+X_3 & X_4
+\end{pmatrix}$.
+\begin{enumerate}
+\item Pour tout $t\in \mathbb R$, calculer $E(e^{itX_1X_4}|X_4)$. 
+\item En déduire la fonction caractéristique de $X_4$.
+\item Déterminer la fonction caractéristique de $Y$ puis la loi de $Y$.
+\end{enumerate}
+}}\\ 
+\\ 
+\\
+\noindent 1. $e^{itX_1X_4}$ étant bornée, elle est intégrable par rapport à n'importe quelle mesure de probabilité donc $E(e^{itX_1X_4}|X_4)$ existe. Soit $h:(x,y)\mapsto e^{itxy}$. $h$ est bornée, donc élément de $\mathscr L^1(\mathcal B(\mathbb R^2), \mathcal B(\mathbb C), P_{(X_1,X_4)})$. Par conséquent, $E(e^{itX_1X_4}|X_4)=\Psi(X_4)$ où $\Psi(y)=\int e^{itxy}dP^{X_4=y}_{X_1}(x)$. Comme $X_1$ et $X_4$ sont indépendantes, $P^{X_4=y}_{X_1} = P_{X_1}$, donc $\begin{aligned}[t]
+\Psi(y)&=\int e^{itxy}dP_{X_1}(x) = E(e^{ityX})=\phi(ty)=e^{-(ty)^2/2}
+\end{aligned}$\newline
+et $E(e^{itX_1X_4}|X_4)=\Psi(X_4)=e^{-t^2X^2_4/2}$. \newline
+\newline
+2.On a $\begin{aligned}[t] \phi_{X_1X_4}(t) &= E(e^{itX_1X_4}) = E[ E(e^{itX_1X_4}|X_4)] = E[e^{-t^2X^2_4/2}]=\frac{1}{\sqrt{2\pi}}\int e^{-t^2x^2/2} e^{-t^2/2}d\lambda(x) \\
+&= \frac{1}{\sqrt{1+t^2}}\frac{1}{\sqrt{2\pi}}\int e^{-u^2/2}d\lambda(x) = \frac{1}{\sqrt{1+t^2}}
+\end{aligned}$\newline
+\newline 
+3. $X_1$, $X_2$, $X_3$, $X_4$ étant indépendantes, $X_1X_4$ et $X_2X_3$ sont indépendantes par coalition, de sorte que 
+$$\phi_Y(t)=E(e^{it(X_1X_4-X_2X_3)})=\phi_{X_1X_4}(t)\phi_{X_2X_3}(-t)=\frac{1}{1+t^2}$$
+donc $Y$ suit la loi de Laplace de paramètre $1$.
+
+\subsection{} \noindent\fbox{
+\parbox{\linewidth}{
+Soit $N$ une var de loi de Poisson de paramètre $\lambda >0$.\newline
+Soit $(X_n)$ une suite de var indépendantes, de même loi et indépendantes de $N$.
+Soit $S=\sum_{k=0}^N X_k$. Calculer la fonction caractéristique de $S$ en fonction de celle de $X_1$.
+}}\\ 
+\\ 
+\\
+\noindent On a l'égalité $e^{itS}=\mathbbm 1_{\mathbb N}(N)e^{itS} +\mathbbm 1_{\mathbb N^c}(N)e^{itS}$ et comme $N$ est discrète de support $\mathbb N$, $\mathbbm 1_{\mathbb N^c}(N)e^{itS}$ est nulle $P$-p.s de sorte que $e^{itS}=\mathbbm 1_{\mathbb N}(N)e^{itS}$ $P$-p.s.\newline
+Or $\mathbbm 1_{\mathbb N}(N)e^{itS}=\sum_{j=0}^\infty \mathbbm 1_{\{j\}}(N)e^{it\sum_{k=0}^j X_j}$.
+Considérons $$Y_n=\sum_{j=0}^n \mathbbm 1_{\{j\}}(N)e^{it\sum_{k=0}^j X_j}$$
+On a 
+$\bullet$ chaque $Y_n$ est $(\mathcal A,\mathcal B(\mathbb C))$-mesurable. \newline
+$\bullet$ $|Y_n|\leq \sum_{j=0}^n \mathbbm 1_{\{j\}}(N) = 1$ avec $\int 1 dP(\omega)= P(\Omega)=1<\infty$. \newline
+$\bullet$ $(Y_n)$ converge simplement vers $\sum_{j=0}^\infty \mathbbm 1_{\{j\}}(N)e^{it\sum_{k=0}^j X_j}$. \newline
+Par convergence dominée, $\int Y_n(\omega) dP(\omega) \to \int \sum_{j=0}^\infty \mathbbm 1_{\{j\}}(N(\omega))e^{it\sum_{k=0}^j X_j(\omega)} dP(\omega)$
+ie $$\sum_{j=0}^n \int \mathbbm 1_{\{j\}}(N(\omega))e^{it\sum_{k=0}^j X_j(\omega)} dP(\omega)\to \int\mathbbm 1_{\mathbb N}(N)e^{itS(\omega)} dP(\omega) = \int e^{itS(\omega)}dP(\omega)=E(e^{itS})$$
+Or $\sum_{j=0}^n \int \mathbbm 1_{\{j\}}(N(\omega))e^{it\sum_{k=0}^j X_j(\omega)} dP(\omega) = \sum_{j=0}^n E(1_{\{j\}}(N)e^{it\sum_{k=0}^j X_j})$.\newline
+Donc $\sum_{j=0}^\infty E(1_{\{j\}}(N)e^{it\sum_{k=0}^j X_j})=E(e^{itS}) \quad (*)$
+\newline
+Par ailleurs, pour $n\geq 0$, $X_0,\ldots,X_n,N$ sont indépendants, donc par coalition, $\sum_{j=0}^n X_k$ et $N$ sont indépendants. De plus, $x\mapsto \mathbbm 1_{n}(x)$ est $(\mathcal B(\mathbb R), \mathcal B(\mathbb R))$-mesurable (car ${n}\in \mathcal B(\mathbb R)$), donc $\sum_{j=0}^n X_k$ et $1_{\{n\}}(N)$ sont indépendants. \newline
+\newline 
+$(*)$ devient $\begin{aligned}[t] E(e^{itS}) &= \sum_{j=0}^\infty E(1_{\{j\}}(N))E(e^{it\sum_{k=0}^j X_j}) = \sum_{j=0}^\infty P(N=j) (\phi_{X_1}(t))^{j+1}\\
+&= \phi_{X_1}(t) e^{-\lambda} \sum_{j=0}^\infty  \frac{\lambda^j}{j!} (\phi_{X_1}(t))^{j}\\
+&= \phi_{X_1}(t) e^{-\lambda} e^{\lambda\phi_{X_1}(t) }
+\end{aligned}$\newline
+Donc $$\phi_S(t)=\phi_{X_1}(t) e^{\lambda(\phi_{X_1}(t)-1) }$$
+
+
+
+
+\subsection{} \noindent\fbox{
+\parbox{\linewidth}{
+Soit $P_1$ la loi de probabilité continue de densité $f_1$ par rapport à $\lambda$ et de fonction caractéristique $\phi_1$.\newline
+On suppose que $\phi_1$ est réelle, positive sur $\mathbb R$ et intégrable par rapport à $\lambda$.\newline
+Soit $$P_2: \mathcal B(\mathbb R) \to \mathbb R, A\mapsto \frac{1}{\|\phi_1\|_1}\int_A \phi_1(t) d\lambda(t)$$
+\begin{enumerate}
+\item Montrer que $P_2$ est une loi de probabilité continue.
+\item Exprimer la fonction caractéristique associée à $P_2$ en fonction de $f_1$.
+\item On suppose que $P_1$ est la loi de Laplace de paramètre $1$. En déduire $\phi_2$. Quelle est cette loi ?
+\end{enumerate}
+}}\\ 
+\\ 
+\\
+\noindent 1. Montrons que $P_2$ est une mesure de probabilité sur $(\mathbb R, \mathcal B(\mathbb R))$.\newline
+$P_2$ est à valeurs dans $[0,1]$, $P_2(\mathbb R)= \frac{\|\phi_1\|_1}{\|\phi_1\|_1}=1$ et pour $(A_i)$ une suite d'éléments disjoints de $\mathcal B(\mathbb R)$, la suite de fonctions mesurables positives \newline 
+$f_n:t\mapsto \mathbbm 1_{\cup_{i=1}^n A_i}(t) \phi_1(t)$ tend en croissant vers $t\mapsto \mathbbm 1_{\cup_{i=1}^\infty A_i}(t) \phi_1(t)$, donc par convergence monotone:
+$$\begin{aligned}[t]
+P_2(\cup_{i=1}^\infty A_i) &= \frac{1}{\|\phi_1\|_1} \int \mathbbm 1_{\cup_{i=1}^\infty A_i}(t) \phi_1(t) d\lambda(t)\\
+&= \lim_n \frac{1}{\|\phi_1\|_1} \int \mathbbm 1_{\cup_{i=1}^n A_i}(t) \phi_1(t) d\lambda(t) \\
+&= \lim_n \frac{1}{\|\phi_1\|_1} \int \sum_{i=1}^n \mathbbm 1_{A_i}(t) \phi_1(t) d\lambda(t)\\
+&= \sum_{i=1}^\infty \frac{1}{\|\phi_1\|_1}\int_{A_i}  \phi_1(t) d\lambda(t)\\
+&= \sum_{i=1}^\infty P_2(A_i)
+\end{aligned}$$
+Par ailleurs, $\displaystyle P_2(A)=\int_A \frac{\phi_1(t)}{\|\phi_1\|_1} d\lambda(t)$, avec $t\mapsto \frac{\phi_1(t)}{\|\phi_1\|_1}$ mesurable positive, donc $P_2$ est continue, de densité $$f_2(x)=\frac{\phi_1(x)}{\|\phi_1\|_1}$$
+2. On a $\begin{aligned}[t]
+\phi_2(t) &= \int e^{itx}dP_2(x) = \int e^{itx}\frac{\phi_1(x)}{\|\phi_1\|_1} d\lambda(x)\\
+&= \frac{2\pi}{\|\phi_1\|_1} \frac{1}{2\pi} \int e^{-i(-t)x} \phi_1(x) d\lambda(x)\\
+&= \frac{2\pi}{\|\phi_1\|_1} f_1(-t)
+\end{aligned}$\newline
+\newline
+3. Dans le cas d'une Laplace $1$, $f_1(t)=\frac 12 e^{-|t|}$ et $\|\phi_1\|_1 = \int \frac{1}{1+t^2}d\lambda(t)=\pi$, donc $\phi_2(t)=e^{-|t|}$.
+$P_2$ est donc la loi associée à $\mathcal C(1)$.
+
+\end{document}
